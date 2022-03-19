@@ -6,3 +6,4 @@ from django.http import HttpResponse
 
 def api_init(requests):
     return HttpResponse("Hello from API...")
+
