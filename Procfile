@@ -1,2 +1,2 @@
-release python manage.py migrate
-web: gunicorn SIH_vendorManagement.wsgi
+release: python manage.py migrate
+web: gunicorn SIH_vendorManagement.wsgi --log-file -
