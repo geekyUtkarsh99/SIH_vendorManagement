@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     path('api/', views.api_init, name='api_init'),
     path('', views.renderProtocols, name='renderProtocols'),
+    path('api/test',views.create_Test)
 ]
