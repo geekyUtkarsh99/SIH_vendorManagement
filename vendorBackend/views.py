@@ -22,13 +22,19 @@ def renderProtocols(request):
     return render(request, '../build/index.html')
 
 
-# database calls
 @api_view(['POST'])
 def create_Test(request):
+    """
+    This method is for test purposes
+    :param request: json req
+    :return: response json serialized
+    """
     datablock = JSONParser().parse(request)
     serialized_data = TestSerializer(data=datablock)
     if serialized_data.is_valid():
         serialized_data.save()
-        return JsonResponse({"status": 201}, status.HTTP_201_CREATED)
+        return JsonResponse({"status": 201, "message": "Successfully added"}, status=status.HTTP_201_CREATED,
+                            safe=False)
     else:
-        return JsonResponse(TestSerializer.errors, status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({"status": 400, "message": "variable error"}, status=status.HTTP_400_BAD_REQUEST,
+                            safe=False)
