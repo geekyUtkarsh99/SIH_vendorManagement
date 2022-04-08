@@ -8,6 +8,10 @@ urlpatterns = [
     path('', views.renderProtocols, name='renderProtocols'),
     path('api/test',views.create_Test),
     path('api/register',vendorViews.register, name="register"),
+
     path('api/feedback',CustomerView.feedback, name="feedback"),
     path('api/complain',CustomerView.complain, name="complain")
+
+    path('api/admin/login',views.login_admin)
+
 ]
