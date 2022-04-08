@@ -114,3 +114,20 @@ class admin(models.Model):
     object = models.DjongoManager()
 
 ##----------------------------------------------------------------------------
+
+
+
+##------------------------------------------------------------------------------
+
+# CUSTOMER MODEL ----------------------------------------------------------------##
+
+class CustomerModel(models.Model):
+    name=models.CharField(max_length=50,default="")
+    phone=models.CharField(max_length=10)
+    ven_id=models.CharField(max_length=50,default="")
+    description=models.TextField(default="")
+    sanitation=models.TextField(default="")
+    service=models.TextField(default="")
+    objects = models.DjongoManager()
+
+

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vendorBackend.models import TestModel, VendorModel,admin
+from vendorBackend.models import CustomerModel, TestModel, VendorModel,admin
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,3 +19,10 @@ class adminSerializer(serializers.ModelSerializer):
     class Meta:
         models = admin
         fields = ('id','username','password','city','state')
+
+# for Customer...................
+
+class customerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=CustomerModel
+        fields=('name','phone','description','sanitation','service')
