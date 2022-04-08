@@ -131,3 +131,11 @@ class CustomerModel(models.Model):
     objects = models.DjongoManager()
 
 
+# ..customer......................complain model..............
+
+class CustomercomplainModel(models.Model):
+    name=models.CharField(max_length=50,default="")
+    phone=models.CharField(max_length=10)
+    ven_id=models.CharField(max_length=50,default="")
+    description=models.TextField(default="")
+

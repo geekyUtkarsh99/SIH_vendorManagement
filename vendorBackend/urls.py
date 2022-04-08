@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.renderProtocols, name='renderProtocols'),
     path('api/test',views.create_Test),
     path('api/register',vendorViews.register, name="register"),
-    path('api/phone/feedback',CustomerView.feedback, name="feedback")
+    path('api/feedback',CustomerView.feedback, name="feedback"),
+    path('api/complain',CustomerView.complain, name="complain")
 ]
