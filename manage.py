@@ -3,7 +3,7 @@
 import os
 import sys
 
-
+print(sys.path)
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SIH_vendorManagement.settings')

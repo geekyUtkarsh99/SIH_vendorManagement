@@ -3,9 +3,9 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from vendorBackend.serializers import TestSerializer
+from vendorBackend.serializers import TestSerializer, adminSerializer
 from vendorBackend.models import TestModel
-from rest_framework import status
+from rest_framework import status, request as req
 
 
 # Create your views here.
@@ -38,3 +38,12 @@ def create_Test(request):
     else:
         return JsonResponse({"status": 400, "message": "variable error"}, status=status.HTTP_400_BAD_REQUEST,
                             safe=False)
+
+
+@api_view(['GET'])
+def login_admin(request):
+    uid = request.GET['uname']
+    password = request.GET['password']
+    print("query catch : ", password)
+    # datablock = JSONParser().parse(request)
+    return JsonResponse({"status": 200}, status=status.HTTP_200_OK, safe=False)
