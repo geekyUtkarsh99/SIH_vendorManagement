@@ -10,7 +10,7 @@ from rest_framework import status
 
 # Create your views here.
 
-def api_init(requests):
+def api_init():
     return HttpResponse("Hello from API...")
 
 

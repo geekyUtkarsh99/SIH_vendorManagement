@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
-from django.conf.global_settings import CSRF_COOKIE_SECURE
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -103,7 +101,11 @@ DATABASES = {
     }
 }
 
-
+REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': {
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        }
+}
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
