@@ -45,6 +45,5 @@ def login_admin(request):
     uid = request.GET['uname']
     password = request.GET['password']
     print("query catch : ", password)
-
     # datablock = JSONParser().parse(request)
     return JsonResponse({"status": 200}, status=status.HTTP_200_OK, safe=False)
