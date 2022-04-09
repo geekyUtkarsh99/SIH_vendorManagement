@@ -47,3 +47,14 @@ def login_admin(request):
     print("query catch : ", password)
     # datablock = JSONParser().parse(request)
     return JsonResponse({"status": 200}, status=status.HTTP_200_OK, safe=False)
+
+
+@api_view(['POST'])
+def register_admin(request):
+    datablock = JSONParser().parse(request)
+    serialized_data = adminSerializer(data=datablock)
+    if serialized_data.is_valid():
+        serialized_data.save()
+        return JsonResponse({"status": 201}, status=status.HTTP_201_CREATED, safe=False)
+    else:
+        JsonResponse({"status": 406}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)

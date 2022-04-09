@@ -97,10 +97,18 @@ class VendorForm(forms.ModelForm):
 class Area(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
     gm_loc = models.CharField(max_length=50)
-    ven_no = models.ArrayField(model_container=vendor_id)
+    ven_no = models.ArrayField(model_container=vendor_id, model_form_class=VendorForm)
 
     class Meta:
         abstract = True
+
+
+class AreaForm(forms.ModelForm):
+    class Meta:
+        model = Area
+        fields = (
+            'id', 'gm_loc', 'ven_no'
+        )
 
 
 class admin(models.Model):
@@ -110,11 +118,10 @@ class admin(models.Model):
     session = models.EmbeddedField(model_container=session)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
-    Area = models.ArrayField(model_container=Area, model_form_class=VendorForm)
+    Area = models.ArrayField(model_container=Area, model_form_class=AreaForm)
     object = models.DjongoManager()
 
 ##----------------------------------------------------------------------------
-
 
 
 ##------------------------------------------------------------------------------
@@ -122,20 +129,19 @@ class admin(models.Model):
 # CUSTOMER MODEL ----------------------------------------------------------------##
 
 class CustomerModel(models.Model):
-    name=models.CharField(max_length=50,default="")
-    phone=models.CharField(max_length=10)
-    ven_id=models.CharField(max_length=50,default="")
-    description=models.TextField(default="")
-    sanitation=models.TextField(default="")
-    service=models.TextField(default="")
+    name = models.CharField(max_length=50, default="")
+    phone = models.CharField(max_length=10)
+    ven_id = models.CharField(max_length=50, default="")
+    description = models.TextField(default="")
+    sanitation = models.TextField(default="")
+    service = models.TextField(default="")
     objects = models.DjongoManager()
 
 
 # ..customer......................complain model..............
 
 class CustomercomplainModel(models.Model):
-    name=models.CharField(max_length=50,default="")
-    phone=models.CharField(max_length=10)
-    ven_id=models.CharField(max_length=50,default="")
-    description=models.TextField(default="")
-
+    name = models.CharField(max_length=50, default="")
+    phone = models.CharField(max_length=10)
+    ven_id = models.CharField(max_length=50, default="")
+    description = models.TextField(default="")
