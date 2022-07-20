@@ -10,7 +10,6 @@ class TestModel(models.Model):
 
 
 # Vendor Model ----------------------------------------------------------------
-
 class SessionModel(models.Model):
     token = models.CharField(max_length=200)
     validtill = models.DateField()
