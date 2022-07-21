@@ -62,7 +62,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
+    os.path.join(BASE_DIR.parent, 'build/static')
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -72,7 +72,7 @@ ROOT_URLCONF = 'SIH_vendorManagement.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'build')]
+        'DIRS': [os.path.join(BASE_DIR.parent ,'build')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
