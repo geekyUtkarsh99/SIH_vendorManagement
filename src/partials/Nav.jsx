@@ -1,8 +1,9 @@
-import { Navbar, Container, Button, Nav } from 'react-bootstrap';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import Auth from '../components/Auth';
 
 function NavigationBar() {
 	return (
-		<Navbar bg="light" expand="lg">
+		<Navbar sticky={"top"} bg="light" expand="lg">
 			<Container>
 				<Navbar.Brand href="#home">svas</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -10,7 +11,7 @@ function NavigationBar() {
 					<Nav>
 						<Nav.Link href="">Home</Nav.Link>
 						<Nav.Link href="">Link 1</Nav.Link>
-						<Button>Login / Sign Up</Button>
+						<Auth/>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
