@@ -19,7 +19,7 @@ def renderProtocols(request):
     :param request: required for GET,POST
     :return: render the frontend
     """
-    return render(request, '../build/index.html')
+    return render(request, 'index.html')
 
 
 @api_view(['POST'])

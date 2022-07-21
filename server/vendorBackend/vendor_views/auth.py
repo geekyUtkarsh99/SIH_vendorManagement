@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from vendorBackend.serializers import VendorSerializer
 from rest_framework import status
