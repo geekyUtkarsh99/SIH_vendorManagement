@@ -11,6 +11,7 @@ def verify_admin_login(uname, pwd):
     data = None
     for i in result:
         data = i
+    print(data)
     # if data is not None:
     #     if check_password_hash(data['password'],pwd):
     #         return True
@@ -20,4 +21,4 @@ def verify_admin_login(uname, pwd):
 
 # for test
 if __name__ == "__main__":
-    print(verify_admin_login("admin_bhopal", "admin@bpl"))
+    print(verify_admin_login("admin_bhopal", "admin@bp"))
