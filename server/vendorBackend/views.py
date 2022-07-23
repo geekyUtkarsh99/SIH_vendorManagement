@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from vendorBackend.serializers import TestSerializer, adminSerializer
-from vendorBackend.models import TestModel
+from .serializers import TestSerializer, adminSerializer
+from .models import TestModel
 from rest_framework import status, request as req
 
 

@@ -98,7 +98,7 @@ DATABASES = {
         'NAME': 'users',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb+srv://sihadmin:sih123@sih.2oqaj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+            'host': 'mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
         }
     }
 }
