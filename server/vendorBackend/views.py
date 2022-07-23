@@ -9,6 +9,7 @@ from .serializers import TestSerializer, adminSerializer
 from .models import TestModel
 from rest_framework import status, request as req
 from .MongoOperations import mdbHandler as mdops
+from werkzeug.security import generate_password_hash,check_password_hash
 
 
 # Create your views here.
@@ -48,21 +49,20 @@ def login_admin(request):
     uid = request.GET['uname']
     password = request.GET['pwd']
     print("query catch : ", password)
-    if mdops.verify_admin_login(uid,password):
+    if mdops.verify_admin_login(uid, password):
         return JsonResponse({"status": 200}, status=status.HTTP_200_OK, safe=False)
-    else :
+    else:
         return JsonResponse({"status": 401}, status=status.HTTP_401_UNAUTHORIZED, safe=False)
 
 
 @api_view(['POST'])
 def register_admin(request):
-    # print(request.body)
-    # datablock = json.load(request.body.decode('utf-8'))
-    print(request.data)
-    serialized_data = adminSerializer(data=request.data)
+    postdata = request.data
+    postdata['password'] = generate_password_hash(postdata['password'],salt_length=16)
+    print(postdata)
+    serialized_data = adminSerializer(data=postdata)
     if serialized_data.is_valid():
         serialized_data.save()
-        return JsonResponse({"status": 201}, status=status.HTTP_201_CREATED, safe=False)
+        return JsonResponse({"status": 201, "message": "success"}, status=status.HTTP_201_CREATED, safe=False)
     else:
-        JsonResponse({"status": 406}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
-    return  JsonResponse({"status": 406}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
+        return JsonResponse({"status": 406, "message": "failed"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)

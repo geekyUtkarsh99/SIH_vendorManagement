@@ -113,7 +113,7 @@ class AreaForm(forms.ModelForm):
 class admin(models.Model):
     id = models.IntegerField(default=0, primary_key=True)
     username = models.CharField(default="", max_length=50)
-    password = models.CharField(default="", max_length=50)
+    password = models.CharField(default="", max_length=120)
     session = models.EmbeddedField(model_container=session)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
