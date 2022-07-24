@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vendorBackend.models import CustomerModel, TestModel, VendorModel, admin, CustomercomplainModel
+from .models import CustomerModel, TestModel, VendorModel, admin, CustomercomplainModel
 
 
 class TestSerializer(serializers.ModelSerializer):

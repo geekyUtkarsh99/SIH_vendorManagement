@@ -1,3 +1,5 @@
+import json
+
 from pymongo import MongoClient
 from werkzeug.security import check_password_hash,generate_password_hash
 
@@ -16,8 +18,11 @@ def verify_admin_login(uname, pwd):
     #     else : return False
     return data is not None
     pass
+    if check_password_hash(data['password'],pwd):
+        return True
+    return False
 
 
 # for test
 if __name__ == "__main__":
-    print(verify_admin_login("admin_bhopal", "admin@bpl"))
+    print(verify_admin_login("new_Secure_admin", "admin@new"))

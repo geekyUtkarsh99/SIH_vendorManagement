@@ -1,11 +1,15 @@
+import json
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from vendorBackend.serializers import TestSerializer, adminSerializer
-from vendorBackend.models import TestModel
+from .serializers import TestSerializer, adminSerializer
+from .models import TestModel
 from rest_framework import status, request as req
+from .MongoOperations import mdbHandler as mdops
+from werkzeug.security import generate_password_hash,check_password_hash
 
 
 # Create your views here.
@@ -43,18 +47,22 @@ def create_Test(request):
 @api_view(['GET'])
 def login_admin(request):
     uid = request.GET['uname']
-    password = request.GET['password']
+    password = request.GET['pwd']
     print("query catch : ", password)
-    # datablock = JSONParser().parse(request)
-    return JsonResponse({"status": 200}, status=status.HTTP_200_OK, safe=False)
+    if mdops.verify_admin_login(uid, password):
+        return JsonResponse({"status": 200}, status=status.HTTP_200_OK, safe=False)
+    else:
+        return JsonResponse({"status": 401}, status=status.HTTP_401_UNAUTHORIZED, safe=False)
 
 
 @api_view(['POST'])
 def register_admin(request):
-    datablock = JSONParser().parse(request)
-    serialized_data = adminSerializer(data=datablock)
+    postdata = request.data
+    postdata['password'] = generate_password_hash(postdata['password'],salt_length=16)
+    print(postdata)
+    serialized_data = adminSerializer(data=postdata)
     if serialized_data.is_valid():
         serialized_data.save()
-        return JsonResponse({"status": 201}, status=status.HTTP_201_CREATED, safe=False)
+        return JsonResponse({"status": 201, "message": "success"}, status=status.HTTP_201_CREATED, safe=False)
     else:
-        JsonResponse({"status": 406}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
+        return JsonResponse({"status": 406, "message": "failed"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
