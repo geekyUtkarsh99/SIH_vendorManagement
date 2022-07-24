@@ -58,6 +58,7 @@ def login_admin(request):
 @api_view(['POST'])
 def register_admin(request):
     postdata = request.data
+
     postdata['password'] = generate_password_hash(postdata['password'],salt_length=16)
     postdata['admin_id'] = utils.create_random_token(16)
     print(postdata)
