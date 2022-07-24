@@ -1,4 +1,8 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
+from mongoengine import EmbeddedDocumentField, StringField, IntField, DateField
+from mongoengine import document
+import mongoengine
+mongoengine.connect(host="mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/users?retryWrites=true&w=majority")
+
 from djongo import models
 from django import forms
 
@@ -10,13 +14,9 @@ class TestModel(models.Model):
 
 
 # Vendor Model ----------------------------------------------------------------
-class SessionModel(models.Model):
-    token = models.CharField(max_length=200)
-    validtill = models.DateField()
-
-    class Meta:
-        abstract = True
-
+class SessionModel(document.EmbeddedDocument):
+    token = StringField(max_length=1000)
+    validtill = DateField()
 
 class Pop(models.Model):
     link = models.CharField(max_length=400)
@@ -53,18 +53,15 @@ class LicenseModel(models.Model):
         abstract = True
 
 
-class VendorModel(models.Model):
-    username = models.CharField(max_length=100, default="")
-    password = models.CharField(max_length=200)
-    session = models.EmbeddedField(model_container=SessionModel)
-    phone = models.CharField(max_length=10)
-    email = models.CharField(max_length=200)
-    _type = models.CharField(max_length=200)
-    document = models.EmbeddedField(model_container=DocumentModel)
-    certificate = models.EmbeddedField(model_container=CertificateModel)
-    license = models.EmbeddedField(model_container=LicenseModel)
-    rating = models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], default=4)
-    objects = models.DjongoManager()
+class VendorModel(document.Document):
+    username = StringField(max_length=100)
+    password = StringField(max_length=100)
+    session = EmbeddedDocumentField(SessionModel)
+    phone = StringField(max_length=10)
+    email = StringField(max_length=200)
+    _type = StringField(max_length=200)
+    # document = EmbeddedDocumentField(DocumentModel)
+    rating = IntField(min_value=1, max_value=5)
 
 
 ##------------------------------------------------------------------------------
@@ -102,12 +99,12 @@ class Area(models.Model):
         abstract = True
 
 
-class AreaForm(forms.ModelForm):
-    class Meta:
-        model = Area
-        fields = (
-            'id', 'gm_loc', 'ven_no'
-        )
+# class AreaForm(forms.ModelForm):
+#     class Meta:
+#         model = Area
+#         fields = (
+#             'id', 'gm_loc', 'ven_no'
+#         )
 
 
 class admin(models.Model):
@@ -117,7 +114,7 @@ class admin(models.Model):
     session = models.EmbeddedField(model_container=session)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
-    Area = models.ArrayField(model_container=Area, model_form_class=AreaForm)
+    # Area = models.ArrayField(model_container=Area, model_form_class=AreaForm)
     object = models.DjongoManager()
 
 ##----------------------------------------------------------------------------

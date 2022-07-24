@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
-from django.conf.global_settings import CSRF_COOKIE_SECURE
+from django.conf.global_settings import AUTHENTICATION_BACKENDS, CSRF_COOKIE_SECURE
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,20 +88,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SIH_vendorManagement.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'users',
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-            'host': 'mongodb+srv://sihadmin:sih123@sih.2oqaj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-        }
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.dummy',
+#     }
+# }
+
+AUTHENTICATION_BACKENDS = (
+        'mongoengine.django.auth.MongoEngineBackend'
+    )
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -146,3 +144,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
