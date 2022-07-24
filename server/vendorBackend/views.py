@@ -1,5 +1,5 @@
 import json
-
+from . import utils
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -59,6 +59,7 @@ def login_admin(request):
 def register_admin(request):
     postdata = request.data
     postdata['password'] = generate_password_hash(postdata['password'],salt_length=16)
+    postdata['admin_id'] = utils.create_random_token(16)
     print(postdata)
     serialized_data = adminSerializer(data=postdata)
     if serialized_data.is_valid():

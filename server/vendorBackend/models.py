@@ -108,7 +108,7 @@ class Area(models.Model):
 
 
 class admin(models.Model):
-    id = models.IntegerField(default=0, primary_key=True)
+    admin_id = models.CharField(default=0, max_length=16)
     username = models.CharField(default="", max_length=50)
     password = models.CharField(default="", max_length=120)
     session = models.EmbeddedField(model_container=session)

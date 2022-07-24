@@ -20,7 +20,7 @@ class VendorSerializer(serializers.ModelSerializer):
 class adminSerializer(serializers.ModelSerializer):
     class Meta:
         model = admin
-        fields = ('id', 'username', 'password','city','state')
+        fields = ('admin_id', 'username', 'password','city','state')
 
 
 # for Customer...................
