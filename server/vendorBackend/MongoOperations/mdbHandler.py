@@ -1,9 +1,11 @@
 import json
 
 from pymongo import MongoClient
-from werkzeug.security import check_password_hash,generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
-client = MongoClient('mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+client = MongoClient(
+    'mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+
 
 def verify_admin_login(uname, pwd):
     database = client.get_database(name="users")
@@ -12,13 +14,7 @@ def verify_admin_login(uname, pwd):
     data = None
     for i in result:
         data = i
-    # if data is not None:
-    #     if check_password_hash(data['password'],pwd):
-    #         return True
-    #     else : return False
-    return data is not None
-    pass
-    if check_password_hash(data['password'],pwd):
+    if check_password_hash(data['password'], pwd):
         return True
     return False
 

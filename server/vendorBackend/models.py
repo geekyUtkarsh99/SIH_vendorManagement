@@ -1,4 +1,4 @@
-from mongoengine import EmbeddedDocumentField, StringField, IntField, DateField
+from mongoengine import *
 from mongoengine import document
 import mongoengine
 mongoengine.connect(host="mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/users?retryWrites=true&w=majority")
@@ -67,33 +67,33 @@ class VendorModel(document.Document):
 ##------------------------------------------------------------------------------
 
 # admin models ----------------------------------------------------------------##
-class session(models.Model):
-    token = models.CharField(max_length=50)
-    valid_till = models.DateField()
+class session(EmbeddedDocument):
+    token = StringField(max_length=50)
+    valid_till = DateField()
 
     class Meta:
         abstract = True
 
 
-class vendor_id(models.Model):
+class vendor_id(EmbeddedDocument):
     id = models.CharField(max_length=50, primary_key=True)
 
     class Meta:
         abstract = True
 
 
-class VendorForm(forms.ModelForm):
-    class Meta:
-        model = vendor_id
-        fields = (
-            'id',
-        )
+# class VendorForm(EmbeddedDocument):
+#     class Meta:
+#         model = vendor_id
+#         fields = (
+#             'id',
+#         )
 
 
-class Area(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
-    gm_loc = models.CharField(max_length=50)
-    ven_no = models.ArrayField(model_container=vendor_id, model_form_class=VendorForm)
+class Area(EmbeddedDocument):
+    id = StringField(max_length=50, primary_key=True)
+    gm_loc = StringField(max_length=50)
+    ven_no = EmbeddedDocumentListField(vendor_id)
 
     class Meta:
         abstract = True
@@ -107,15 +107,16 @@ class Area(models.Model):
 #         )
 
 
-class admin(models.Model):
-    admin_id = models.CharField(default=0, max_length=16)
-    username = models.CharField(default="", max_length=50)
-    password = models.CharField(default="", max_length=120)
-    session = models.EmbeddedField(model_container=session)
-    city = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)
+class admin(Document):
+    admin_id = StringField(default=0, max_length=16)
+    username = StringField(default="", max_length=50)
+    password = StringField(default="", max_length=120)
+    session = EmbeddedDocumentField(session)
+    city = StringField(max_length=50)
+    state = StringField(max_length=50)
+    Area = EmbeddedDocumentListField(Area)
     # Area = models.ArrayField(model_container=Area, model_form_class=AreaForm)
-    object = models.DjongoManager()
+    # object = models.DjongoManager()
 
 ##----------------------------------------------------------------------------
 
