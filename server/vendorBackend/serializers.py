@@ -21,6 +21,7 @@ class VendorSerializer(serializers.DocumentSerializer):
 class adminSerializer(serializers.DocumentSerializer):
     class Meta:
         model = admin
+        depth = 2
         # fields = ('admin_id', 'username', 'password','city','state')
 
 

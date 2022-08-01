@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import mongoengine
 
 from django.conf.global_settings import AUTHENTICATION_BACKENDS, CSRF_COOKIE_SECURE
-
+mongoengine.connect(host="mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/users?retryWrites=true&w=majority")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -96,6 +97,7 @@ WSGI_APPLICATION = 'SIH_vendorManagement.wsgi.application'
 #         'ENGINE': 'django.db.backends.dummy',
 #     }
 # }
+
 
 AUTHENTICATION_BACKENDS = (
         'mongoengine.django.auth.MongoEngineBackend'

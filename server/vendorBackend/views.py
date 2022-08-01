@@ -66,4 +66,11 @@ def register_admin(request):
         serialized_data.save()
         return JsonResponse({"status": 201, "message": "success"}, status=status.HTTP_201_CREATED, safe=False)
     else:
+        print("error : ",serialized_data.errors)
         return JsonResponse({"status": 406, "message": "failed"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
+
+
+def add_new_location(request):
+    postdata = request.json
+
+

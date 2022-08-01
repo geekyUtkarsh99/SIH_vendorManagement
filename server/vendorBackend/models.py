@@ -2,7 +2,6 @@ from mongoengine import *
 from mongoengine import document
 import mongoengine
 mongoengine.connect(host="mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/users?retryWrites=true&w=majority")
-
 from djongo import models
 from django import forms
 
@@ -76,7 +75,7 @@ class session(EmbeddedDocument):
 
 
 class vendor_id(EmbeddedDocument):
-    id = models.CharField(max_length=50, primary_key=True)
+    ven_id = StringField(max_length=50)
 
     class Meta:
         abstract = True
@@ -91,9 +90,9 @@ class vendor_id(EmbeddedDocument):
 
 
 class Area(EmbeddedDocument):
-    id = StringField(max_length=50, primary_key=True)
+    area_id = StringField(max_length=50)
     gm_loc = StringField(max_length=50)
-    ven_no = EmbeddedDocumentListField(vendor_id)
+    ven_no = ListField(EmbeddedDocumentField(vendor_id))
 
     class Meta:
         abstract = True
@@ -108,13 +107,13 @@ class Area(EmbeddedDocument):
 
 
 class admin(Document):
-    admin_id = StringField(default=0, max_length=16)
+    admin_id = StringField(default="", max_length=16)
     username = StringField(default="", max_length=50)
     password = StringField(default="", max_length=120)
     session = EmbeddedDocumentField(session)
     city = StringField(max_length=50)
     state = StringField(max_length=50)
-    Area = EmbeddedDocumentListField(Area)
+    Area = ListField(EmbeddedDocumentField(Area))
     # Area = models.ArrayField(model_container=Area, model_form_class=AreaForm)
     # object = models.DjongoManager()
 
