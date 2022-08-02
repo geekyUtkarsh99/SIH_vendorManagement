@@ -24,4 +24,7 @@ urlpatterns = [
 
     # test register admin for model clarity
     path('api/admin/register', views.register_admin),
+
+    # add new area
+    path('api/admin/addarea', views.add_new_location),
 ]
