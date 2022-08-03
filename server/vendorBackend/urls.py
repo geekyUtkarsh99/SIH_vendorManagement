@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/register', auth.register, name="register"),
     path('api/auth_tkn', auth.auth_token, name="auth_tkn"),
     path('api/login', auth.login, name="login"),
+    path('api/logout', auth.login, name="login"),
 
     # Customer Feedback / Complaint
     path('api/feedback', CustomerView.feedback, name="feedback"),
