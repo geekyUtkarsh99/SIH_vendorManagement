@@ -84,3 +84,13 @@ def add_new_location(request):
         return JsonResponse({"status": 406, "message": "failed"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
 
 
+@api_view(['POST'])
+def add_vendor_to_location(request):
+
+        postdata = request.data
+        admin_query = admin.objects(admin_id=postdata['admin_id']).get()
+
+        # check if limit reached for vendors in a particular area
+        ls = admin_query.Area.ven_no()
+        print(ls)
+

@@ -93,7 +93,7 @@ class Area(EmbeddedDocument):
     area_id = StringField(max_length=50)
     gm_loc = StringField(max_length=50)
     ven_no = ListField(EmbeddedDocumentField(vendor_id))
-
+    ven_limit = IntField()
     class Meta:
         abstract = True
 
