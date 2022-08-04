@@ -102,6 +102,7 @@ def add_vendor_to_location(request):
 
     for j in admin_query.Area:
         ven_info = vendor_id(ven_id=payload['vendor_id'])
-        j.ven_no.append(ven_info)
+        if j.area_id == payload['area_id']:
+         j.ven_no.append(ven_info)
     admin_query.save()
     return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
