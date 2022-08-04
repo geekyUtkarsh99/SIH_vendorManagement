@@ -84,13 +84,22 @@ def add_new_location(request):
         return JsonResponse({"status": 406, "message": "failed"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
 
 
+@api_view(['GET'])
+def get_location(request):
+    payload = request.data
+    admin_query = admin.objects.get(admin_id=payload['admin_id'])
+    ls = ''
+    for i in admin_query.Area:
+        ls+=i.to_json()
+    print(ls)
+    return JsonResponse({"status": 200, 'response': json.loads(str(ls))}, status=status.HTTP_200_OK, safe=False)
+
+
 @api_view(['POST'])
 def add_vendor_to_location(request):
-
-        postdata = request.data
-        admin_query = admin.objects(admin_id=postdata['admin_id']).get()
-
-        # check if limit reached for vendors in a particular area
-        ls = admin_query.Area.ven_no()
-        print(ls)
-
+    payload = request.data
+    admin_query = admin.objects(Area__area_id=payload['area_id'])
+    for i in admin_query:
+        for j in i.Area:
+            print(j.ven_no)
+    return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
