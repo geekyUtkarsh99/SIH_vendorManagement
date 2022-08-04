@@ -10,7 +10,7 @@ from .models import TestModel
 from rest_framework import status, request as req
 from .MongoOperations import mdbHandler as mdops
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import admin, Area
+from .models import admin, Area, vendor_id
 
 
 # Create your views here.
@@ -90,7 +90,7 @@ def get_location(request):
     admin_query = admin.objects.get(admin_id=payload['admin_id'])
     ls = ''
     for i in admin_query.Area:
-        ls+=i.to_json()
+        ls += i.to_json()
     print(ls)
     return JsonResponse({"status": 200, 'response': json.loads(str(ls))}, status=status.HTTP_200_OK, safe=False)
 
@@ -98,8 +98,10 @@ def get_location(request):
 @api_view(['POST'])
 def add_vendor_to_location(request):
     payload = request.data
-    admin_query = admin.objects(Area__area_id=payload['area_id'])
-    for i in admin_query:
-        for j in i.Area:
-            print(j.ven_no)
+    admin_query = admin.objects.get(Area__area_id=payload['area_id'])
+
+    for j in admin_query.Area:
+        ven_info = vendor_id(ven_id=payload['vendor_id'])
+        j.ven_no.append(ven_info)
+    admin_query.save()
     return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
