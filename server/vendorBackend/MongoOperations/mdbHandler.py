@@ -9,7 +9,7 @@ client = MongoClient(
 
 def verify_admin_login(uname, pwd):
     database = client.get_database(name="users")
-    doc = database.get_collection(name="vendorBackend_admin")
+    doc = database.get_collection(name="admin")
     result = doc.find({"username": {"$eq": uname}})
     data = None
     for i in result:
