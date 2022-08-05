@@ -16,6 +16,7 @@ def register(request):
     This method registers the user
     """
     data = JSONParser().parse(request)
+    print(data)
     new_vendor = VendorModel(username=data["username"], password=data["password"], email=data["email"])
     new_vendor.save()
     payload = {

@@ -2,14 +2,14 @@ from mongoengine import *
 from mongoengine import document
 import mongoengine
 mongoengine.connect(host="mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/users?retryWrites=true&w=majority")
-from djongo import models
+
 from django import forms
 
 
 # Create your models here.
-class TestModel(models.Model):
-    val1 = models.CharField(max_length=28, default="")
-    val2 = models.BooleanField(default=False)
+class TestModel(Document):
+    val1 = StringField(max_length=28, default="")
+    val2 = BooleanField(default=False)
 
 
 # Vendor Model ----------------------------------------------------------------
@@ -17,36 +17,36 @@ class SessionModel(document.EmbeddedDocument):
     token = StringField(max_length=1000)
     validtill = DateField()
 
-class Pop(models.Model):
-    link = models.CharField(max_length=400)
+class Pop(Document):
+    link = StringField(max_length=400)
 
     class Meta:
         abstract = True
 
 
-class DocumentModel(models.Model):
-    _type = models.CharField(max_length=200)
-    _id = models.CharField(max_length=100)
-    pop = models.ArrayField(model_container=Pop)
+class DocumentModel(Document):
+    _type = StringField(max_length=200)
+    _id = StringField(max_length=100)
+    pop = ListField(model_container=Pop)
 
     class Meta:
         abstract = True
 
 
-class CertificateModel(models.Model):
-    issuedOn = models.DateField()
-    validtill = models.DateField()
-    valid = models.BooleanField()
+class CertificateModel(Document):
+    issuedOn = DateField()
+    validtill = DateField()
+    valid = BooleanField()
 
     class Meta:
         abstract = True
 
 
-class LicenseModel(models.Model):
-    issuedOn = models.DateField()
-    validtill = models.DateField()
-    valid = models.BooleanField()
-    areaId = models.CharField(max_length=100)
+class LicenseModel(Document):
+    issuedOn = DateField()
+    validtill = DateField()
+    valid = BooleanField()
+    areaId = StringField(max_length=100)
 
     class Meta:
         abstract = True
@@ -114,8 +114,8 @@ class admin(Document):
     city = StringField(max_length=50)
     state = StringField(max_length=50)
     Area = ListField(EmbeddedDocumentField(Area))
-    # Area = models.ArrayField(model_container=Area, model_form_class=AreaForm)
-    # object = models.DjongoManager()
+    # Area = ArrayField(model_container=Area, model_form_class=AreaForm)
+    # object = DjongoManager()
 
 ##----------------------------------------------------------------------------
 
@@ -124,20 +124,20 @@ class admin(Document):
 
 # CUSTOMER MODEL ----------------------------------------------------------------##
 
-class CustomerModel(models.Model):
-    name = models.CharField(max_length=50, default="")
-    phone = models.CharField(max_length=10)
-    ven_id = models.CharField(max_length=50, default="")
-    description = models.TextField(default="")
-    sanitation = models.TextField(default="")
-    service = models.TextField(default="")
-    objects = models.DjongoManager()
+class CustomerModel(Document):
+    name = StringField(max_length=50, default="")
+    phone = StringField(max_length=10)
+    ven_id = StringField(max_length=50, default="")
+    description = StringField(default="")
+    sanitation = StringField(default="")
+    service = StringField(default="")
+    # objects = DjongoManager()
 
 
 # ..customer......................complain model..............
 
-class CustomercomplainModel(models.Model):
-    name = models.CharField(max_length=50, default="")
-    phone = models.CharField(max_length=10)
-    ven_id = models.CharField(max_length=50, default="")
-    description = models.TextField(default="")
+class CustomercomplainModel(Document):
+    name = StringField(max_length=50, default="")
+    phone = StringField(max_length=10)
+    ven_id = StringField(max_length=50, default="")
+    description = StringField(default="")

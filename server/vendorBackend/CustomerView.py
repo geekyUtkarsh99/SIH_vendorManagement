@@ -1,5 +1,10 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+"""
+   Author:Ayush
+   description:
+"""
+
+
+
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
@@ -8,15 +13,16 @@ from vendorBackend.serializers import customercomplainSerializer
 from vendorBackend.models import CustomerModel
 from vendorBackend.models import CustomercomplainModel
 from rest_framework import status
-from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
+
+
+@api_view(['POST'])
 def feedback(request):
     """
     This method take feedback from the customer
     """
     datablock = JSONParser().parse(request)
-    print(datablock)
+    # print(datablock)
     serializer = customerSerializer(data=datablock) 
     if serializer.is_valid():
         serializer.save()
@@ -33,7 +39,8 @@ def feedback(request):
 
 
 
-@csrf_exempt
+
+@api_view(['POST'])
 def complain(request):
     """
     This method take feedback from the customer
