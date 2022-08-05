@@ -29,5 +29,7 @@ urlpatterns = [
     # add new area
     path('api/admin/addarea', views.add_new_location),
     # allocate vendor to location after verification
-    path('api/admin/addvendor',views.add_vendor_to_location)
+    path('api/admin/addvendor',views.add_vendor_to_location),
+    # get all locations
+    path('api/admin/getlocation',views.get_location)
 ]

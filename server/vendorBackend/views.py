@@ -10,7 +10,7 @@ from .models import TestModel
 from rest_framework import status, request as req
 from .MongoOperations import mdbHandler as mdops
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import admin, Area
+from .models import admin, Area, vendor_id
 
 
 # Create your views here.
@@ -84,13 +84,25 @@ def add_new_location(request):
         return JsonResponse({"status": 406, "message": "failed"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
 
 
+@api_view(['GET'])
+def get_location(request):
+    payload = request.data
+    admin_query = admin.objects.get(admin_id=payload['admin_id'])
+    ls = ''
+    for i in admin_query.Area:
+        ls += i.to_json()
+    print(ls)
+    return JsonResponse({"status": 200, 'response': json.loads(str(ls))}, status=status.HTTP_200_OK, safe=False)
+
+
 @api_view(['POST'])
 def add_vendor_to_location(request):
+    payload = request.data
+    admin_query = admin.objects.get(Area__area_id=payload['area_id'])
 
-        postdata = request.data
-        admin_query = admin.objects(admin_id=postdata['admin_id']).get()
-
-        # check if limit reached for vendors in a particular area
-        ls = admin_query.Area.ven_no()
-        print(ls)
-
+    for j in admin_query.Area:
+        ven_info = vendor_id(ven_id=payload['vendor_id'])
+        if j.area_id == payload['area_id']:
+         j.ven_no.append(ven_info)
+    admin_query.save()
+    return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
