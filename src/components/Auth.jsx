@@ -19,9 +19,9 @@ function Auth() {
 				 headers : {
 					'Content-Type':'application/json'
 			}
-			// body:JSON.stringify({username:credential.username,password:credential.password})
+			
 		});
-		console.log("success");
+		// console.log("success");
 			console.log(response);
 			
 			
