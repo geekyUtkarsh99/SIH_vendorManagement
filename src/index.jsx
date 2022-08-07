@@ -7,11 +7,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 ReactDOM.render(
 	<React.StrictMode>
-		<BrowserRouter>
+		{/* <BrowserRouter>
 			<Routes>
 				<Route path='*' element={<App />} />
 			</Routes>
-		</BrowserRouter>
+		</BrowserRouter> */}
+		<App/>
 	</React.StrictMode>,
 	document.getElementById('root')
 );
