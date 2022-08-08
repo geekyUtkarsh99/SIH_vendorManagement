@@ -4,9 +4,9 @@ import Cards from '../partials/Cards'
 export default function VendorLookup() {
   return (
     <>
-    <div className="container w-100 h-100 position-relative">
+    <div className="container w-100 h-100" style={{position:"relative"}}>
    
-    <Form className=" v-100 d-flex my-2">
+    <Form className=" v-100 d-flex my-2 p-0">
             <Form.Control
               type="search"
               placeholder="Search"

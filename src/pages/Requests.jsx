@@ -1,10 +1,11 @@
 import React from 'react'
-import { Container } from 'react-bootstrap';
+import Detailcard from '../partials/Detailcard'
 
 export default function Requests() {
   return (
-    <Container className='vh-100 my-auto  mx-auto  d-flex  align-items-center justify-content-center'>
- <h1>Requests</h1>
- </Container>
+    <div className="container w-100 h-100" style={{position:"relative"}}>
+    {/* this is just for show baki iska use yaha nahi karenge */}
+      <Detailcard/>
+    </div>
   )
 }
