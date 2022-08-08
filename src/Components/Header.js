@@ -11,20 +11,16 @@ import {
   Menu,
   MenuItem,
   SidebarHeader,
-  SidebarFooter,
+  
   SidebarContent
 } from "react-pro-sidebar";
 
-//import icons from react icons
-import { FaList, FaRegHeart } from "react-icons/fa";
+
 import {
-  FiHome,
-  FiLogOut,
-  FiArrowLeftCircle,
-  FiArrowRightCircle
-} from "react-icons/fi";
-import { RiPencilLine } from "react-icons/ri";
-import { BiCog } from "react-icons/bi";
+ MdClose,
+ MdViewList
+} from "react-icons/md";
+
 
 //import sidebar css from react-pro-sidebar module and our custom css
 import "react-pro-sidebar/dist/css/styles.css";
@@ -47,13 +43,13 @@ const Header = () => {
         {/* collapsed props to change menu size using menucollapse state */}
         <ProSidebar collapsed={menuCollapse}>
           <SidebarHeader>
-            <div className="logotext">
+            <div className="logotext" onClick={menuIconClick}>
               {/* small and big change using menucollapse state */}
-              <p>{menuCollapse ? "Logo" : "Big Logo"}</p>
+              <p>{menuCollapse ? <MdViewList className="w-100"/> : "svas" }</p>
             </div>
             <div className="closemenu" onClick={menuIconClick}>
               {/* changing menu collapse icon on click */}
-              {menuCollapse ? <FiArrowRightCircle /> : <FiArrowLeftCircle />}
+              {menuCollapse ? "" : <MdClose />}
             </div>
           </SidebarHeader>
           <SidebarContent>

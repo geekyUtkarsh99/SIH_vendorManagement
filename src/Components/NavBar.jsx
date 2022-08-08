@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import * as GrIcons from 'react-icons/gr';
+import Card from 'react-bootstrap/Card';
+
 function BrandExample() {
   return (
     <>
@@ -8,7 +9,7 @@ function BrandExample() {
         <Container>
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-          Town Vending Commitee, Jabalpur <GrIcons.GrFormClose/>
+          Town Vending Commitee, Jabalpur  <Card.Img variant="top" src="../images/man.jpg" />
           </Navbar.Text>
         </Navbar.Collapse>
         </Container>
