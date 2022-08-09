@@ -12,10 +12,10 @@ function SideBar() {
                 {open ?
                     <>
                         <div className="p-3"><Image src={logo} height={12} /></div>
-                        <div className="p-3" onClick={() => setOpen(!open)}>
+                        <div className="p-3  cursor-pointer" onClick={() => setOpen(!open)}>
                             <X />
                         </div>
-                    </> : <div className="p-3 w-100 text-center" onClick={() => setOpen(!open)}><Menu /></div>}
+                    </> : <div className="p-3 w-100 text-center cursor-pointer" onClick={() => setOpen(!open)}><Menu /></div>}
             </div>
             <Nav variant="pills" className="flex-column mb-auto">
                 <Nav.Item>
