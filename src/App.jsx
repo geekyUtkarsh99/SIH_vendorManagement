@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom'
+import {  Outlet } from 'react-router-dom'
 // import Auth from './components/Auth';
 
 import NavBar from './Components/NavBar'
