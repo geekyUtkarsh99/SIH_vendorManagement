@@ -1,4 +1,7 @@
 import json
+
+import jwt
+
 from . import utils
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -13,6 +16,35 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .models import admin, Area, vendor_id
 from .vendor_views import auth
 
+
+def check_user_existence(uid):
+    try:
+        admin_querey = admin.objects.get(admin_id=uid)
+        return True
+    except:
+        return False
+
+
+def require_token(func):
+    def wrapper(request):
+        try:
+            if 'jwtToken' in request.headers:
+                token = request.headers['jwtToken']
+            else:
+                return JsonResponse({"message": "token is missing", "status": 400},
+                                    status=status.HTTP_400_BAD_REQUEST, safe=False)
+            data = jwt.decode(token, 'secret_need_to_be_assigned', algorithms=['HS256'])
+            print(data['id'])
+            if check_user_existence(data['id']):
+                return func(request)
+            else:
+                return JsonResponse({"message": "token incorrect", "status": 500},
+                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR, safe=False)
+        except:
+            return JsonResponse({"message": "token expired", "status": 500},
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR, safe=False)
+
+    return wrapper
 
 # Create your views here.
 
@@ -50,9 +82,10 @@ def create_Test(request):
 def login_admin(request):
     uid = request.GET['uname']
     password = request.GET['pwd']
-    token = auth.createToken(uid)
     print("query catch : ", password)
     if mdops.verify_admin_login(uid, password):
+
+        token = auth.createToken(admin.objects.get(username=uid).admin_id)
         return JsonResponse({"jwtToken": token, "status": 200}, status=status.HTTP_200_OK, safe=False)
     else:
         return JsonResponse({"status": 401}, status=status.HTTP_401_UNAUTHORIZED, safe=False)
@@ -87,14 +120,16 @@ def add_new_location(request):
 
 
 @api_view(['GET'])
+@require_token
 def get_location(request):
     payload = request.data
     admin_query = admin.objects.get(admin_id=payload['admin_id'])
-    ls = ''
+    ls = []
     for i in admin_query.Area:
-        ls += i.to_json()
+        ls.append(json.loads(i.to_json()))
+
     print(ls)
-    return JsonResponse({"status": 200, 'response': json.loads(str(ls))}, status=status.HTTP_200_OK, safe=False)
+    return JsonResponse({"status": 200, 'response': ls}, status=status.HTTP_200_OK, safe=False)
 
 
 @api_view(['POST'])
@@ -108,3 +143,11 @@ def add_vendor_to_location(request):
             j.ven_no.append(ven_info)
     admin_query.save()
     return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
+
+
+
+
+
+# for test
+if __name__ == '__main__':
+    check_user_existence("dbjPm4b7zYWhX95x")
