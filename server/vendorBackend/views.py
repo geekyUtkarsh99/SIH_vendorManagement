@@ -11,6 +11,7 @@ from rest_framework import status, request as req
 from .MongoOperations import mdbHandler as mdops
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import admin, Area, vendor_id
+from .vendor_views import auth
 
 
 # Create your views here.
@@ -49,9 +50,10 @@ def create_Test(request):
 def login_admin(request):
     uid = request.GET['uname']
     password = request.GET['pwd']
+    token = auth.createToken(uid)
     print("query catch : ", password)
     if mdops.verify_admin_login(uid, password):
-        return JsonResponse({"status": 200}, status=status.HTTP_200_OK, safe=False)
+        return JsonResponse({"jwtToken": token, "status": 200}, status=status.HTTP_200_OK, safe=False)
     else:
         return JsonResponse({"status": 401}, status=status.HTTP_401_UNAUTHORIZED, safe=False)
 
@@ -103,6 +105,6 @@ def add_vendor_to_location(request):
     for j in admin_query.Area:
         ven_info = vendor_id(ven_id=payload['vendor_id'])
         if j.area_id == payload['area_id']:
-         j.ven_no.append(ven_info)
+            j.ven_no.append(ven_info)
     admin_query.save()
     return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
