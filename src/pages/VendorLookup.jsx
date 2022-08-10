@@ -1,6 +1,8 @@
 import React from 'react'
-import { Form, Button } from 'react-bootstrap';
+import { Form} from 'react-bootstrap';
 import Cards from '../partials/Cards'
+import FilterButton from '../Components/FilterButton';
+
 export default function VendorLookup() {
     return (
         <>
@@ -12,7 +14,10 @@ export default function VendorLookup() {
                         className="me-2"
                         aria-label="Search"
                     />
-                    <Button variant="outline-dark">filters</Button>
+                    {/* <Button variant="outline-dark">filters</Button> */}
+
+                    {/* Component for the filter button  */}
+                    <FilterButton/>
                 </Form>
                 {
                     [1, 2, 3, 4, 5].map((e, i) => (
