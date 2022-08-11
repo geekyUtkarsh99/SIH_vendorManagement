@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .vendor_views import auth
-from rest_framework_simplejwt import views as jwt_views
+from .vendor_views import certification 
 from . import CustomerView
 
 urlpatterns = [
@@ -15,6 +15,11 @@ urlpatterns = [
     path('api/auth_tkn', auth.auth_token, name="auth_tkn"),
     path('api/login', auth.login, name="login"),
     path('api/logout', auth.login, name="login"),
+
+    path('api/create_certificate', certification.create_certification, name="create_certification"),
+    path('api/get_certificate', certification.get_vendor_certificate, name="get_certification"),
+    path('api/get_all_certificate', certification.get_certificates, name="get_all_certification"),
+    path('api/sign_certificate', certification.sign_certificate, name="sign_certificate"),
 
     # Customer Feedback / Complaint
     path('api/feedback', CustomerView.feedback, name="feedback"),

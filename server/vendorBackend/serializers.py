@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomerModel, TestModel, VendorModel, admin, CustomercomplainModel
+from .models import CertModel, CustomerModel, Status, TestModel, VendorModel, admin, CustomercomplainModel
 from rest_framework_mongoengine import serializers
 
 
@@ -16,6 +16,18 @@ class VendorSerializer(serializers.DocumentSerializer):
         model = VendorModel
         fields = ('username', 'password', 'phone', 'email')
 
+class Certificate(serializers.DocumentSerializer):
+    class Meta:
+        model = CertModel
+
+    def get_id(self):
+       instance = super(Certificate, self).save()
+       return instance.id
+
+    def init_status(self):
+         instance = super(Certificate, self).save()
+         instance.status = Status(status="NOT VERIFIED")
+        
 
 # for admin---------------
 class adminSerializer(serializers.DocumentSerializer):

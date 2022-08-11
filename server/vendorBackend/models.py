@@ -1,10 +1,7 @@
-from mongoengine import *
-from mongoengine import document
+from random import choices
+from mongoengine import Document, BooleanField, EmailField, EmbeddedDocument, ListField, StringField, IntField, DateField, EmbeddedDocumentField
 import mongoengine
 mongoengine.connect(host="mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/users?retryWrites=true&w=majority")
-
-from django import forms
-
 
 # Create your models here.
 class TestModel(Document):
@@ -13,55 +10,55 @@ class TestModel(Document):
 
 
 # Vendor Model ----------------------------------------------------------------
-class SessionModel(document.EmbeddedDocument):
+class SessionModel(EmbeddedDocument):
     token = StringField(max_length=1000)
     validtill = DateField()
 
-class Pop(Document):
-    link = StringField(max_length=400)
+class DetailModel(EmbeddedDocument):
+    name = StringField(max_length=100)
+    dob = DateField()
+    address = StringField(max_length=100)
+    contact = StringField(max_length=100)
 
-    class Meta:
-        abstract = True
-
-
-class DocumentModel(Document):
-    _type = StringField(max_length=200)
-    _id = StringField(max_length=100)
-    pop = ListField(model_container=Pop)
-
-    class Meta:
-        abstract = True
-
-
-class CertificateModel(Document):
-    issuedOn = DateField()
-    validtill = DateField()
-    valid = BooleanField()
-
-    class Meta:
-        abstract = True
-
-
-class LicenseModel(Document):
-    issuedOn = DateField()
-    validtill = DateField()
-    valid = BooleanField()
-    areaId = StringField(max_length=100)
-
-    class Meta:
-        abstract = True
-
-
-class VendorModel(document.Document):
+class VendorModel(Document):
     username = StringField(max_length=100)
     password = StringField(max_length=100)
     session = EmbeddedDocumentField(SessionModel)
     phone = StringField(max_length=10)
-    email = StringField(max_length=200)
-    _type = StringField(max_length=200)
-    # document = EmbeddedDocumentField(DocumentModel)
+    email = EmailField(max_length=200)
+    details = EmbeddedDocumentField(DetailModel)
     rating = IntField(min_value=1, max_value=5)
 
+class DocumentModel(EmbeddedDocument):
+    verId = StringField(max_length=100)
+    verType = StringField(max_length=100)
+
+class SignatureModel(EmbeddedDocument):
+    authority = StringField(max_length=100)
+    issuedOn = DateField()
+    validTill = DateField()
+
+class NomineeDetails(EmbeddedDocument):
+    name = StringField(max_length=100)
+    relation = StringField(max_length=100)
+
+class NomineeModel(EmbeddedDocument):
+    nominee1 = EmbeddedDocumentField(NomineeDetails)
+    nominee2 = EmbeddedDocumentField(NomineeDetails)
+
+class Status(EmbeddedDocument):
+    label = StringField(choices=["NOT VERIFIED", "VERIFIED", "REJECTED"])
+    response = StringField()
+
+class CertModel(Document):
+    vendorId = StringField(max_length=100)
+    document = EmbeddedDocumentField(DocumentModel)
+    signed = EmbeddedDocumentField(SignatureModel)
+    nominees = EmbeddedDocumentField(NomineeModel)
+    bussiness_name = StringField()
+    bussiness_type = StringField()
+    status = EmbeddedDocumentField(Status) 
+    request_date = DateField()
 
 ##------------------------------------------------------------------------------
 
