@@ -7,15 +7,15 @@ import logo from "../images/svas_dark.png"
 function SideBar() {
     const [open, setOpen] = useState(true)
     return (
-        <div style={{ width: open ? "280px" : "80px" }} className={"d-flex flex-column flex-shrink-0 bg-white h-100 border border-right collapsing"}>
+        <div style={{ width: open ? "280px" : "80px" , transition:".30s ease"}} className={"d-flex flex-column flex-shrink-0 bg-white h-100 border border-right collapsing"}>
             <div className="d-flex justify-content-between">
                 {open ?
                     <>
                         <div className="p-3"><Image src={logo} height={12} /></div>
-                        <div className="p-3" onClick={() => setOpen(!open)}>
+                        <div className="p-3  cursor-pointer" onClick={() => setOpen(!open)}>
                             <X />
                         </div>
-                    </> : <div className="p-3 w-100 text-center" onClick={() => setOpen(!open)}><Menu /></div>}
+                    </> : <div className="p-3 w-100 text-center cursor-pointer" onClick={() => setOpen(!open)}><Menu /></div>}
             </div>
             <Nav variant="pills" className="flex-column mb-auto">
                 <Nav.Item>
