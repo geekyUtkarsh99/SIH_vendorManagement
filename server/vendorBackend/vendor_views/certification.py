@@ -43,7 +43,7 @@ def get_vendor_certificate(request):
     cert: CertModel = CertModel.objects(vendorId=data["vendorId"]).first()
     if cert is None:
         return Response({"error": "Vendor not found"}, status=status.HTTP_404_NOT_FOUND)
-    return Response(cert.to_mongo())
+    return Response(json.loads(cert.to_json()))
 
 @api_view(["GET"])
 def get_certificates(request):
