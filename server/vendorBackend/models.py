@@ -55,10 +55,17 @@ class CertModel(Document):
     document = EmbeddedDocumentField(DocumentModel)
     signed = EmbeddedDocumentField(SignatureModel)
     nominees = EmbeddedDocumentField(NomineeModel)
-    bussiness_name = StringField()
-    bussiness_type = StringField()
     status = EmbeddedDocumentField(Status) 
     request_date = DateField()
+
+class License(Document):
+    #TODO:Photos
+    vendorId = StringField(max_length=100)
+    area_id = StringField(max_length=100)
+    bussiness_name = StringField()
+    bussiness_type = StringField()
+    issued_on = DateField()
+    valid_till = DateField()
 
 ##------------------------------------------------------------------------------
 
