@@ -19,7 +19,7 @@ function Auth() {
 				 headers : {
 					'Content-Type':'application/json'
 			}
-			
+			 
 		});
 		// console.log("success");
 			console.log(response);

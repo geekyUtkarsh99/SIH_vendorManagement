@@ -59,48 +59,66 @@ export default function Requests() {
         </Table>
         <Row>
           <Col className="col-6">
-          
             <div className=" d-flex ">
-              <div className=" mx-5 my-1 me-5"><b>Adhar</b></div>
+              <div className=" mx-5 my-1 me-5">
+                <b>Adhar</b>
+              </div>
               <div>Adhar number</div>
             </div>
             <div className=" d-flex">
-              <div className=" mx-5 my-1 me-5"><b>Address</b></div>
-              <div>
-              <p className="p-0 m-0">some street some place some address</p>
-              <p className="p-0 m-0">some street some place some address</p>
-              <p className="p-0 m-0">some street some place some address</p>
+              <div className=" mx-5 my-1 me-5">
+                <b>Address</b>
               </div>
-             
+              <div>
+                <p className="p-0 m-0">some street some place some address</p>
+                <p className="p-0 m-0">some street some place some address</p>
+                <p className="p-0 m-0">some street some place some address</p>
+              </div>
             </div>
-            <div className=" mx-5 my-2"><b>Nominee Details</b></div>
+            <div className=" mx-5 my-2">
+              <b>Nominee Details</b>
+            </div>
 
             <div className=" d-flex">
-              <div className=" mx-5 my-1 me-5" ><b>Nominee 1</b></div>
+              <div className=" mx-5 my-1 me-5">
+                <b>Nominee 1</b>
+              </div>
               <div>Nominee 1 Name</div>
             </div>
             <div className=" d-flex">
-              <div className=" mx-5 my-1 me-5"><b>Adhar</b></div>
+              <div className=" mx-5 my-1 me-5">
+                <b>Adhar</b>
+              </div>
               <div>Nominee1 Adhar</div>
             </div>
-           <br></br>
+            <br></br>
             <div className=" d-flex">
-              <div className=" mx-5 my-1 me-5" ><b>Nominee 2</b></div>
+              <div className=" mx-5 my-1 me-5">
+                <b>Nominee 2</b>
+              </div>
               <div>Nominee 2 Name</div>
             </div>
             <div className=" d-flex">
-              <div className=" mx-5 my-1 me-5 "><b>Adhar</b></div>
+              <div className=" mx-5 my-1 me-5 ">
+                <b>Adhar</b>
+              </div>
               <div>Nominee2 Adhar</div>
             </div>
-            <div className=" mx-5 my-2"><b>Business Details</b></div>
+            <div className=" mx-5 my-2">
+              <b>Business Details</b>
+            </div>
             <div className=" d-flex">
-              <div className=" mx-5 my-1 me-5"><b>Type</b></div>
+              <div className=" mx-5 my-1 me-5">
+                <b>Type</b>
+              </div>
               <div>Food</div>
-            </div><div className=" d-flex">
-              <div className=" mx-5 my-1 me-5"><b>Name</b></div>
+            </div>
+            <div className=" d-flex">
+              <div className=" mx-5 my-1 me-5">
+                <b>Name</b>
+              </div>
               <div>Some Name</div>
             </div>
-
           </Col>
           <Col className="col-6">
             <b>Photos</b>
