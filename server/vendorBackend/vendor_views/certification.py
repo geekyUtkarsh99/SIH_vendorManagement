@@ -37,13 +37,13 @@ def create_certification(request):
         return Response({"error": "Invalid Data"}, status=status.HTTP_417_EXPECTATION_FAILED)
     return Response(new_cert.validated_data, status=status.HTTP_201_CREATED)
 
-@api_view(["GET"])
+@api_view(["POST"])
 def get_vendor_certificate(request):
     data = JSONParser().parse(request)
     cert: CertModel = CertModel.objects(vendorId=data["vendorId"]).first()
     if cert is None:
         return Response({"error": "Vendor not found"}, status=status.HTTP_404_NOT_FOUND)
-    print(cert)
+    # print(cert.to_json())
     return Response(json.loads(cert.to_json()))
 
 @api_view(["GET"])
