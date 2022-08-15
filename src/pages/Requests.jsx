@@ -39,7 +39,6 @@ export default function Requests() {
               <div>
                 <MdArrowBack /> <b> Details</b>
               </div>
-              <div className="text-muted">#CertificateRrequestID</div>
             </Card.Header>
             <Row className="col-12">
               <div className=" d-flex justify-content-between">
@@ -52,7 +51,7 @@ export default function Requests() {
                   />
                   <div>
                     <div>
-                      <b>Vendor Name</b>
+                      <b>{data.details.name}</b>
                     </div>
                     <div className="text-muted d-flex ">
                       <div> Gender</div>
@@ -95,13 +94,7 @@ export default function Requests() {
                   </div>
                   <div>
                     <p className="p-0 m-0">
-                      some street some place some address
-                    </p>
-                    <p className="p-0 m-0">
-                      some street some place some address
-                    </p>
-                    <p className="p-0 m-0">
-                      some street some place some address
+                        {data.details.address}
                     </p>
                   </div>
                 </div>

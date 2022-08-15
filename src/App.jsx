@@ -12,12 +12,13 @@ import SideBar from './partials/SideBar';
 
 function App() {
     return (
-     
         <div className="d-flex vh-100">
             <SideBar />
             <div style={{flex: 1}}>
                 <NavBar/>
-                <Outlet/>
+                <div className='container'>
+                    <Outlet/>
+                </div>
             </div>
         </div>
     );
