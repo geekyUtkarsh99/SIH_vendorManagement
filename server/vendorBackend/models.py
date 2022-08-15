@@ -18,7 +18,7 @@ class DetailModel(EmbeddedDocument):
     name = StringField(max_length=100)
     dob = DateField()
     address = StringField(max_length=100)
-    contact = StringField(max_length=100)
+    contact = StringField(max_length=10)
 
 class VendorModel(Document):
     username = StringField(max_length=100)
@@ -26,7 +26,6 @@ class VendorModel(Document):
     session = EmbeddedDocumentField(SessionModel)
     phone = StringField(max_length=10)
     email = EmailField(max_length=200)
-    details = EmbeddedDocumentField(DetailModel)
     rating = IntField(min_value=1, max_value=5)
 
 class DocumentModel(EmbeddedDocument):
@@ -56,6 +55,7 @@ class CertModel(Document):
     signed = EmbeddedDocumentField(SignatureModel)
     nominees = EmbeddedDocumentField(NomineeModel)
     status = EmbeddedDocumentField(Status) 
+    details = EmbeddedDocumentField(DetailModel)
     request_date = DateField()
 
 class License(Document):
