@@ -24,7 +24,7 @@ export default function Requests() {
         };
 
         fetchData();
-    });
+    }, []);
 
     return (
         <div className="container w-100 h-100" style={{ position: "relative" }}>
