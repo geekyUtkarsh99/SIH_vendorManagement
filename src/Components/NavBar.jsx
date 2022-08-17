@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 function Bar() {
     return (
         <>
-            <Navbar className="justify-content-end bg-white border-bottom" fixed="sticky">
+            <Navbar className="justify-content-end bg-white border-bottom w-100">
                 <Container>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>

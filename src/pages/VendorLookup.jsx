@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Row } from 'react-bootstrap';
+import { Col, Container, Form, Row } from 'react-bootstrap';
 import Cards from '../partials/Cards'
 import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -15,7 +15,6 @@ export default function VendorLookup() {
             return (
                 <div className="container">
                     <div className="row">
-
                         <div className="border border-secondary rounded-3 col-sm m-2">
                             <Form>
                                 <div key="checkbox" className="mb-3">
@@ -45,7 +44,6 @@ export default function VendorLookup() {
                                 </div>
                             </Form>
                         </div>
-
                         <div className="border border-secondary rounded-3 col-sm m-2">
                             <Form>
                                 <div key="checkbox" className="mb-3">
@@ -75,7 +73,6 @@ export default function VendorLookup() {
                                 </div>
                             </Form>
                         </div>
-
                         <div className="border border-secondary rounded-3 col-sm m-2">
                             <Form>
                                 <div key="checkbox" className="mb-3">
@@ -105,7 +102,6 @@ export default function VendorLookup() {
                                 </div>
                             </Form>
                         </div>
-
                     </div>
                 </div>
             );
@@ -139,25 +135,24 @@ export default function VendorLookup() {
     //Code of the searchBar with filter button
     return (
         <>
-            <div className="row w-100 h-100 overflow-scroll position-relative">
-                <Form className=" v-100 d-flex my-2 p-0">
-                    <Form.Control
-                        type="search"
-                        placeholder="Search"
-                        className="me-2"
-                        aria-label="Search"
-                    />
-                    {/* <Button variant="outline-dark">filters</Button> */}
-
-                    {/* Component for the filter button  */}
-                    <FilterButton />
-                </Form>
-                {
-                    [1, 2, 3, 4, 5, 6, 7, 8].map((e, i) => (
+            <Form className="w-100 d-flex p-0">
+                <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    className="me-2"
+                    aria-label="Search"
+                />
+                {/* <Button variant="outline-dark">filters</Button> */}
+                {/* Component for the filter button  */}
+                <FilterButton />
+            </Form>
+            {
+                [1, 2, 3, 4, 5, 6, 7, 8].map((e, i) => (
+                    <Col lg={12}>
                         <Cards key={i} />
-                    ))
-                }
-            </div>
+                    </Col>
+                ))
+            }
         </>
     )
 }

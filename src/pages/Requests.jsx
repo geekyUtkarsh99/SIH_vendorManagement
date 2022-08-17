@@ -27,7 +27,7 @@ export default function Requests() {
     }, []);
 
     return (
-        <div className="container w-100 h-100" style={{ position: "relative" }}>
+        <div className="w-100 h-100" style={{ position: "relative" }}>
             {apiData !== undefined ?
                 <Card style={{ borderBottom: "none" }}>
                     <Card.Header
