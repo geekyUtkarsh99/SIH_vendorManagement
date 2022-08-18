@@ -165,7 +165,7 @@ export default function VendorLookup() {
   //Code of the searchBar with filter button
   return (
     <>
-      <Form className="w-100 d-flex p-0">
+      <Form className="w-100 d-flex p-0 my-2">
         <Form.Control
           type="search"
           placeholder="Search"
@@ -176,7 +176,7 @@ export default function VendorLookup() {
         {/* Component for the filter button  */}
         <FilterButton />
       </Form>
-      <div className="container">
+      <div className="container p-0 mx-2">
       {[1, 2, 3, 4, 5, 6, 7, 8].map((e, i) => (
         <Col lg={12}>
           <Cards key={i} />
