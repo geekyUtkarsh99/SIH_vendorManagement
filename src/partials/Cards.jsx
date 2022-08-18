@@ -6,7 +6,7 @@ import {
 export default function Cards() {
     return (
         <>
-            <Row>
+            <Row className='my-2'>
                 <Card style={{ flexDirection: "row" }}>
                     <Col className="col-2">
                         <Card.Img style={{ width: '8rem' }} className="p-2" variant="left" src="https://www.pngitem.com/pimgs/m/75-754636_icon-marketer-person-businessman-sales-business-business-man.png" />
@@ -20,8 +20,8 @@ export default function Cards() {
                             </Card.Text>
                         </Card.Body>
                     </Col>
-                    <Col>
-                        <MdKeyboardArrowDown />
+                    <Col className='position-absolute top-0 end-0 mx-2'>
+                        <MdKeyboardArrowDown style={{background: '#ebe4e4'}}/>
                     </Col>
                 </Card>
             </Row>

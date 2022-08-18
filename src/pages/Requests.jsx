@@ -49,8 +49,8 @@ export default function Requests() {
                                     </Card.Text>
                                 </Card.Body>
                             </Col>
-                            <Col>
-                                <MdKeyboardArrowDown onClick={handleclick} />
+                            <Col className='position-absolute top-0 end-0 mx-2'>
+                                <MdKeyboardArrowDown onClick={handleclick} style={{background: '#ebe4e4'}} />
 
                             </Col>
                         </Card>
