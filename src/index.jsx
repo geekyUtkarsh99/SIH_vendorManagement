@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-  Navigate,
+    BrowserRouter,
+    Routes,
+    Route,
+    Outlet,
+    Navigate,
 } from "react-router-dom";
 import "./index.css";
 import App from "./App";
@@ -17,19 +17,22 @@ import Feedback from "./pages/Feedback";
 import Details from "./pages/Details";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/*" element={<App />}>
-          <Route path="vendor" element={<VendorLookup />} />
-          <Route path="requests" element={<Requests />} />
-          <Route path="areas" element={<AreaAllocator />} />
-          <Route path="feedback" element={<Feedback />} />
-          <Route path="Details" element={<Details />} />
-          <Route path="*" element={<Navigate to="vendor" replace />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById("root")
+    <React.StrictMode>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<App />}>
+                    <Route path="vendor" element={<VendorLookup />} />
+                    <Route path="requests">
+                        <Route index element={<Requests/>}/>
+                        <Route path=":id" element={<Details />} />
+                    </Route>
+                    <Route path="areas" element={<AreaAllocator />} />
+                    <Route path="feedback" element={<Feedback />} />
+                    <Route path="Details" element={<Details />} />
+                    <Route path="*" element={<Navigate to="vendor" replace />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    </React.StrictMode>,
+    document.getElementById("root")
 );
