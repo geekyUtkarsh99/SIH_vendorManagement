@@ -20,10 +20,11 @@ ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path="/*" element={<App />}>
+                <Route path="/" element={<App />}>
                     <Route path="vendor" element={<VendorLookup />} />
-                    <Route path="requests" element={<Requests />}>
-                        <Route path="/:id" element={<Details/>} />
+                    <Route path="requests">
+                        <Route index element={<Requests/>}/>
+                        <Route path=":id" element={<Details />} />
                     </Route>
                     <Route path="areas" element={<AreaAllocator />} />
                     <Route path="feedback" element={<Feedback />} />

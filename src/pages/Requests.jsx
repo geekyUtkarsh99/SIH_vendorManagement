@@ -1,37 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 
 export default function Requests() {
     const [apiData, setApiData] = useState(undefined);
     const navigate = useNavigate();
+
     useEffect(() => {
         const url = "http://127.0.0.1:8000/api/get_all_certificate";
-
-        const fetchData = async () => {
-            try {
-                const response = await fetch(url);
-                let tempApiData = await response.json();
-                setApiData(tempApiData);
-            } catch (error) {
-                console.log("error", error);
-            }
-        };
-        fetchData();
+        try {
+            fetch(url).then(response => response.json()).then(data => setApiData(data));
+        } catch (error) {
+            console.log("error", error);
+        }
     }, []);
 
-    const handleclick = () => {
-        navigate("Details", { replace: true });
+    const handleclick = (id) => {
+        navigate(`./${id}`);
     };
+
     return (
-        <div className="container w-100 h-100" style={{ position: "relative" }}>
+        <Container fluid>
+            <Row className="mt-2">
             {apiData !== undefined
                 ? apiData.map((data) => (
-                    <Row className="my-2" key={data.vendorId}>
-                        <Card style={{ flexDirection: "row" }}>
-                            <Col className="col-2">
+                        <Card className="flex-row" key={data.vendorId}>
+                            <Col className="col-md-auto">
                                 <Card.Img
                                     style={{ width: "8rem" }}
                                     className="p-2"
@@ -39,7 +35,7 @@ export default function Requests() {
                                     src="https://www.pngitem.com/pimgs/m/75-754636_icon-marketer-person-businessman-sales-business-business-man.png"
                                 />
                             </Col>
-                            <Col className="col-10">
+                            <Col className="flex-fill">
                                 <Card.Body className="px-2">
                                     <Card.Title>{data.details.name}</Card.Title>
                                     <Card.Text>
@@ -49,14 +45,13 @@ export default function Requests() {
                                     </Card.Text>
                                 </Card.Body>
                             </Col>
-                            <Col>
-                                <MdKeyboardArrowDown onClick={handleclick} />
-
+                            <Col className="py-2 col-md-auto">
+                                <Button onClick={() => handleclick(data.vendorId)}>See details</Button>
                             </Col>
                         </Card>
-                    </Row>
                 ))
                 : "loading"}
-        </div>
+            </Row>
+        </Container>
     );
 }
