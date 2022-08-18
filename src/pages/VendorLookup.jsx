@@ -177,7 +177,7 @@ export default function VendorLookup() {
         <FilterButton />
       </Form>
       <div className="container p-0 mx-2">
-      {[1, 2, 3, 4, 5, 6, 7, 8].map((e, i) => (
+      {[1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18,19,20].map((e, i) => (
         <Col lg={12}>
           <Cards key={i} />
         </Col>

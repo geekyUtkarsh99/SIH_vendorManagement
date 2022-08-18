@@ -15,10 +15,10 @@ function App() {
     return (
         <>
             <div className='d-flex flex-row'>
-                <SideBar />
+                <SideBar/>
                 <div className='d-flex flex-column w-100'>
                     <NavBar />
-                    <Container fluid>
+                    <Container >
                         <main>
                             <Outlet />
                         </main>

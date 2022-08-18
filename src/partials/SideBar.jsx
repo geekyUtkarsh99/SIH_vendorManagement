@@ -7,7 +7,7 @@ import logo from "../images/svas_dark.png"
 function SideBar() {
     const [open, setOpen] = useState(true)
     return (
-        <div style={{ width: open ? "280px" : "64px", transition: ".30s ease" }} className={"d-flex flex-column flex-shrink-0 bg-white vh-100 border-end collapsing"}>
+        <div style={{ width: open ? "280px" : "64px", transition: ".30s ease" }} className={"d-flex flex-column flex-shrink-0 bg-white vh-100 border-end collapsing sticky-top"}>
             <div className="d-flex justify-content-between">
                 {open ?
                     <>
