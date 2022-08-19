@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom'
-import { Card, Col, Table, Row, Button } from "react-bootstrap";
+import { Card, Col, Row, Button } from "react-bootstrap";
 import { MdArrowBack } from "react-icons/md";
 
 const Details = () => {

@@ -1,2 +1,1 @@
-release: python manage.py migrate
-web: gunicorn server.SIH_vendorManagement.wsgi --log-file -
+web: gunicorn --pythonpath server SIH_vendorManagement.wsgi --preload --log-file -

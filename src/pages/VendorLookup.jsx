@@ -145,6 +145,7 @@ export default function VendorLookup() {
                 width: " auto",
                 margin: "10px",
                 padding: "10px",
+                position: 'fixed'
               }}
             >
               <Popover.Header className="bg-light border-bottom-0">
