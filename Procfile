@@ -1,1 +1,1 @@
-web: gunicorn server.SIH_vendorManagement.wsgi --log-file -
+web: gunicorn server.SIH_vendorManagement.wsgi:application --log-file -
