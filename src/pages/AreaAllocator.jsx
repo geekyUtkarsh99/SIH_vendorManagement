@@ -1,37 +1,46 @@
 // api key=AIzaSyCxdc58Bj4jL2Q_v9IxN5fvcDbqbxOD8Ag;
-// install packages -- npm i @iconify/icons-mdi,@iconify/react
-// 
 import React from "react";
-import GoogleMapReact from "google-map-react";
-import { MapPin } from "react-feather";
 
-const AnyReactComponent = ({ text }) => (
-    <div className="pin">
-        {/*<Icon icon={locationIcon} className="pin-icon" />*/}
-        <MapPin className="pin-icon" />
-        <p className="pin-text">{text}</p>
-    </div>
-);
+import {
+  GoogleMap,
+  LoadScript,
+  withScriptjs,
+  withGoogleMap,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+
+const containerStyle = {
+  height: "100vh",
+  width: "80%",
+};
+
+const center = {
+  lat: 28.656158,
+  lng: 77.24102,
+};
+const onLoad = (marker) => {
+  console.log("marker: ", marker);
+};
 
 export default function AreaAllocator() {
-    const defaultProps = {
-        center: {
-            lat: 28.70406,
-            lng: 77.102493,
-        },
-        zoom: 11,
-    };
-
-    return (
-        // Important! Always set the container height explicitly
-        <div style={{ height: "100vh", width: "80%" }}>
-            <GoogleMapReact
-                bootstrapURLKeys={{ key: "AIzaSyCxdc58Bj4jL2Q_v9IxN5fvcDbqbxOD8Ag" }}
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}
-            >
-                <AnyReactComponent lat={28.70406} lng={77.102493} text="My Marker" />
-            </GoogleMapReact>
-        </div>
-    );
+  return (
+    // Important! Always set the container height explicitly
+    <div style={{ height: "100vh", width: "100wh" }}>
+      <LoadScript googleMapsApiKey="AIzaSyCxdc58Bj4jL2Q_v9IxN5fvcDbqbxOD8Ag">
+        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
+          {/* Child components, such as markers, info windows, etc. */}
+          <>
+            <Marker
+              onLoad={onLoad}
+              position={{
+                lat: center.lat,
+                lng: center.lng,
+              }}
+            />
+          </>
+        </GoogleMap>
+      </LoadScript>
+    </div>
+  );
 }
