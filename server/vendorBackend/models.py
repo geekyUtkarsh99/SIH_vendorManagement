@@ -65,8 +65,10 @@ class LicenseModel(Document):
     area_id = StringField(max_length=100)
     bussiness_name = StringField()
     bussiness_type = StringField()
-    issued_on = DateField()
-    valid_till = DateField()
+    valid_limit = IntField()
+    signed = EmbeddedDocumentField(SignatureModel)
+    status = EmbeddedDocumentField(Status) 
+    request_date = DateField()
 
 ##------------------------------------------------------------------------------
 

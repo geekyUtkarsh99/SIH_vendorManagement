@@ -23,8 +23,9 @@ def create_license(request):
     try:
         new_license.is_valid(raise_exception=True)
         new_license.validated_data.update(
-            issued_on=datetime.utcnow(), 
-            valid_till = datetime.utcnow() + timedelta(minutes=60))
+                status={"label" : "NOT VERIFIED"},
+                request_date = datetime.utcnow()
+            )
         vendor: VendorModel = VendorModel.objects(
             id=new_license.validated_data["vendorId"]).first()
         if vendor is None:
@@ -53,3 +54,21 @@ def get_licenses(_):
         licenses.append(json.loads(l.to_json()))
     print(licenses)
     return Response(licenses)
+
+@api_view(["POST"])
+def sign_license(request):
+    data = JSONParser().parse(request)
+    # TODO: Check if admin exists
+    lic = LicenseModel.objects.filter(
+        id=data["license_id"],
+        status__label="NOT VERIFIED"
+    )
+    if lic is None:
+        return Response({"error": "Valid license not found"}, status=status.HTTP_404_NOT_FOUND)
+    lic.update(
+            signed__authority=data["admin_id"], 
+            signed__issuedOn=datetime.now() + timedelta(days=30 * data["valid_limit"]),
+            signed__validTill=datetime.now(),
+            status__label="VERIFIED", 
+            status__response=data["response"] if "response" in data else "")
+    return Response({"message": "signature successful"})
