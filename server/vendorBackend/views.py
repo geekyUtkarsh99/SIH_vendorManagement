@@ -46,6 +46,7 @@ def require_token(func):
 
     return wrapper
 
+
 # Create your views here.
 
 def api_init():
@@ -122,19 +123,32 @@ def add_new_location(request):
 
 
 @api_view(['GET'])
-@require_token
 def get_location(request):
     payload = request.data
-    admin_query = admin.objects.get(admin_id=payload['admin_id'])
-    ls = []
-    for i in admin_query.Area:
-        ls.append(json.loads(i.to_json()))
+    try:
+        if payload['type'] == 0:
+            admin_query = admin.objects.get(admin_id=payload['admin_id'])
+            ls = []
+            for i in admin_query.Area:
+                ls.append(json.loads(i.to_json()))
 
-    print(ls)
-    return JsonResponse({"status": 200, 'response': ls}, status=status.HTTP_200_OK, safe=False)
+            print(ls)
+            return JsonResponse({"status": 200, 'response': ls}, status=status.HTTP_200_OK, safe=False)
+        elif payload['type'] == 1:
+            admin_query = admin.objects.get(city=payload['city'])
+            ls = []
+            for i in admin_query.Area:
+                ls.append(json.loads(i.to_json()))
+
+            print(ls)
+            return JsonResponse({"status": 200, 'response': ls}, status=status.HTTP_200_OK, safe=False)
+    except:
+        return JsonResponse({"status": 500, "message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            safe=False)
 
 
 @api_view(['POST'])
+@require_token
 def add_vendor_to_location(request):
     payload = request.data
     admin_query = admin.objects.get(Area__area_id=payload['area_id'])
@@ -145,9 +159,6 @@ def add_vendor_to_location(request):
             j.ven_no.append(ven_info)
     admin_query.save()
     return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
-
-
-
 
 
 # for test
