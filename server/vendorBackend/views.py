@@ -122,7 +122,7 @@ def add_new_location(request):
         return JsonResponse({"status": 406, "message": "failed"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
 
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def get_location(request):
     payload = request.data
     try:
