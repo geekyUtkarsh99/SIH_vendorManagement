@@ -110,7 +110,9 @@ def register_admin(request):
 def add_new_location(request):
     try:
         postdata = request.data
+        postdata['area']['area_id'] = utils.create_random_token(16)
         admin_query = admin.objects(admin_id=postdata['admin_id']).get()
+        print(postdata)
         area_new = Area(**postdata['area'])
         admin_query.Area.append(area_new)
         admin_query.save()

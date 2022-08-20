@@ -1,4 +1,6 @@
 from mongoengine import Document, BooleanField, EmailField, EmbeddedDocument, ListField, StringField, IntField, DateField, EmbeddedDocumentField
+from random import choices
+from mongoengine import FloatField, Document, BooleanField, EmailField, EmbeddedDocument, ListField, StringField, IntField, DateField, EmbeddedDocumentField
 import mongoengine
 mongoengine.connect(host="mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/users?retryWrites=true&w=majority")
 
@@ -58,7 +60,6 @@ class CertModel(Document):
     request_date = DateField()
 
 # TODO: Photos ? 
-
 class LicenseModel(Document):
     vendorId = StringField(max_length=100)
     area_id = StringField(max_length=100)
@@ -95,7 +96,9 @@ class vendor_id(EmbeddedDocument):
 
 class Area(EmbeddedDocument):
     area_id = StringField(max_length=50)
-    gm_loc = StringField(max_length=50)
+    lat = FloatField()
+    long = FloatField()
+    name = StringField(max_length=50)
     ven_no = ListField(EmbeddedDocumentField(vendor_id))
     ven_limit = IntField()
     class Meta:
