@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CertModel, CustomerModel, Status, TestModel, VendorModel, admin, CustomercomplainModel
+from .models import CertModel, CustomerModel, LicenseModel, Status, TestModel, VendorModel, admin, CustomercomplainModel
 from rest_framework_mongoengine import serializers
 
 
@@ -27,7 +27,14 @@ class Certificate(serializers.DocumentSerializer):
     def init_status(self):
          instance = super(Certificate, self).save()
          instance.status = Status(status="NOT VERIFIED")
-        
+
+class License(serializers.DocumentSerializer):
+    class Meta:
+        model = LicenseModel 
+
+    def get_id(self):
+       instance = super(License, self).save()
+       return instance.id
 
 # for admin---------------
 class adminSerializer(serializers.DocumentSerializer):

@@ -1,4 +1,3 @@
-from random import choices
 from mongoengine import Document, BooleanField, EmailField, EmbeddedDocument, ListField, StringField, IntField, DateField, EmbeddedDocumentField
 import mongoengine
 mongoengine.connect(host="mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/users?retryWrites=true&w=majority")
@@ -58,8 +57,9 @@ class CertModel(Document):
     details = EmbeddedDocumentField(DetailModel)
     request_date = DateField()
 
-class License(Document):
-    #TODO:Photos
+# TODO: Photos ? 
+
+class LicenseModel(Document):
     vendorId = StringField(max_length=100)
     area_id = StringField(max_length=100)
     bussiness_name = StringField()
