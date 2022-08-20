@@ -1,6 +1,6 @@
 from django.urls import path
 
-from vendorBackend.vendor_views.license import create_license, get_licenses, get_vendor_license
+from vendorBackend.vendor_views.license import create_license, get_licenses, get_vendor_license, sign_license
 from . import views
 from .vendor_views import auth
 from .vendor_views import certification 
@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/create_license', create_license, name="create_license"),
     path('api/get_license', get_vendor_license, name="get_license"),
     path('api/get_all_licenses', get_licenses, name="get_all_licenses"),
+    path('api/sign_license', sign_license, name="sign_license"),
 
     # Customer Feedback / Complaint
     path('api/feedback', CustomerView.feedback, name="feedback"),
