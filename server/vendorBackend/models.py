@@ -67,7 +67,6 @@ class Bussiness(EmbeddedDocument):
     open_time = StringField(max_length=100)
     close_time = StringField(max_length=100)
 
-# TODO: Photos ? 
 class LicenseModel(Document):
     vendorId = StringField(max_length=100)
     area_id = StringField(max_length=100)
