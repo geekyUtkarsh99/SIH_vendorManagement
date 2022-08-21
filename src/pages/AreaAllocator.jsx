@@ -57,8 +57,8 @@ export default function AreaAllocator() {
                   lng: marker.lng,
                 }}
                 icon={{
-                  url: "/vendor_icon.svg",
-                  scaledSize: new window.google.maps.Size(30,30),
+                  url: "/vendor_ico.svg",
+                  scaledSize: new window.google.maps.Size(70,70),
                   origin: new window.google.maps.Point(0,0),
                   anchor: new window.google.maps.Point(15, 15),
                 }}
