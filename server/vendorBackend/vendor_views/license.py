@@ -55,26 +55,6 @@ def get_licenses(_):
     print(licenses)
     return Response(licenses)
 
-<<<<<<< HEAD
-@api_view(["POST"])
-def sign_license(request):
-    data = JSONParser().parse(request)
-    # TODO: Check if admin exists
-    lic = LicenseModel.objects.filter(
-        id=data["license_id"],
-        status__label="NOT VERIFIED"
-    )
-    if lic is None:
-        return Response({"error": "Valid license not found"}, status=status.HTTP_404_NOT_FOUND)
-    lic.update(
-            signed__authority=data["admin_id"], 
-            signed__issuedOn=datetime.now() + timedelta(days=30 * data["valid_limit"]),
-            signed__validTill=datetime.now(),
-            status__label="VERIFIED", 
-            status__response=data["response"] if "response" in data else "")
-    return Response({"message": "signature successful"})
-||||||| 490f30e
-=======
 @api_view(["POST"])
 def sign_license(request):
     data = JSONParser().parse(request)
@@ -92,4 +72,3 @@ def sign_license(request):
             status__label="VERIFIED", 
             status__response=data["response"] if "response" in data else "")
     return Response({"message": "signature successful"})
->>>>>>> 4445fe7d1e006ddc2976575992c05dbcd6b68810
