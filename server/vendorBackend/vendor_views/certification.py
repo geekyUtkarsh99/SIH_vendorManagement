@@ -6,39 +6,70 @@
 
 from datetime import datetime
 from bson.json_util import json
-from pymongo.command_cursor import CommandCursor
 from rest_framework.exceptions import status
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from vendorBackend.models import CertModel, Status, VendorModel
+from vendorBackend.models import CertModel, DocumentModel, VendorModel
+import cloudinary
 
-from vendorBackend.serializers import Certificate
+config = cloudinary.config(
+        secure=True,
+        api_key="879963674368385",
+        api_secret="TiBlP74DD9AxmdTqK8r1oOWCPQE",
+        cloud_name="sristspace"
+    )
 
+import cloudinary.uploader
 
 @api_view(["GET"])
 def create_certification(request):
     data = JSONParser().parse(request)
+
+    # Checking if already certificate exists
     cert = CertModel.objects.filter(
         vendorId=data["vendorId"],
         status__label="NOT VERIFIED"
     )
     if cert.count() > 0:
         return Response({"error": "Vendor certificate already exists"}, status=status.HTTP_412_PRECONDITION_FAILED)
-    new_cert = Certificate(data=data)
+
+    # Checking if vendor exists
+    vendor: VendorModel = VendorModel.objects(
+        id=data["vendorId"]
+        ).first()
+    if vendor is None:
+        return Response({"error": "Vendor not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    # New Certificate
+    new_cert = CertModel(
+            vendorId=data["vendorId"],
+            document=DocumentModel(
+                verId=data["document"]["verId"],
+                verType=data["document"]["verType"]
+                ),
+            details=data["details"],
+            nominees=data["nominees"],
+            status={"label": "NOT VERIFIED"},
+            request_date=datetime.utcnow()
+            )
+    if "profile" in data:
+        new_cert.vendor_profile=upload_image(data["profile"], data["vendorId"])
+    else:
+        return Response({"error": "Resource not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    if "doc_img" in data["document"]:
+        new_cert.document.scan=upload_image(data["document"]["doc_img"], data["vendorId"] + "_" + data["document"]["verType"])
+    else:
+        return Response({"error": "Resource not found"}, status=status.HTTP_404_NOT_FOUND)
+
     try:
-        new_cert.is_valid(raise_exception=True)
-        new_cert.validated_data.update(
-            status={"label": "NOT VERIFIED"}, request_date=datetime.utcnow())
-        vendor: VendorModel = VendorModel.objects(
-            id=new_cert.validated_data["vendorId"]).first()
-        if vendor is None:
-            return Response({"error": "Vendor not found"}, status=status.HTTP_404_NOT_FOUND)
+        new_cert.validate()
         new_cert.save()
     except Exception as e:
         print(e)
-        return Response({"error": "Invalid Data"}, status=status.HTTP_417_EXPECTATION_FAILED)
-    return Response(new_cert.validated_data, status=status.HTTP_201_CREATED)
+        return Response({"error": "Invalid data"}, status=status.HTTP_417_EXPECTATION_FAILED)
+    return Response(json.loads(new_cert.to_json()), status=status.HTTP_201_CREATED)
 
 
 @api_view(["POST"])
@@ -84,3 +115,10 @@ def sign_certificate(request):
 # @api_view
 # def renew_certification(request):
 #     pass
+
+# UTILITY FUNCTIONS
+
+def upload_image(img_src, id):
+    cloudinary.uploader.upload(img_src, public_id=id, unique_filename = False, overwrite=True, folder="sih")
+    srcURL = cloudinary.CloudinaryImage(id).build_url()
+    return srcURL

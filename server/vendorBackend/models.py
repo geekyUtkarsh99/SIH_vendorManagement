@@ -32,6 +32,7 @@ class VendorModel(Document):
 class DocumentModel(EmbeddedDocument):
     verId = StringField(max_length=100)
     verType = StringField(max_length=100)
+    scan = StringField(max_length=100)
 
 class SignatureModel(EmbeddedDocument):
     authority = StringField(max_length=100)
@@ -52,6 +53,7 @@ class Status(EmbeddedDocument):
 
 class CertModel(Document):
     vendorId = StringField(max_length=100)
+    vendor_profile = StringField(max_length=200)
     document = EmbeddedDocumentField(DocumentModel)
     signed = EmbeddedDocumentField(SignatureModel)
     nominees = EmbeddedDocumentField(NomineeModel)
