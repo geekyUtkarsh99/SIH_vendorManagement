@@ -3,7 +3,7 @@ from django.urls import path
 from vendorBackend.vendor_views.license import create_license, get_licenses, get_vendor_license, sign_license
 from . import views
 from .vendor_views import auth
-from .vendor_views import certification 
+from .vendor_views import certification
 from . import CustomerView
 
 urlpatterns = [
@@ -41,7 +41,11 @@ urlpatterns = [
     # add new area
     path('api/admin/addarea', views.add_new_location),
     # allocate vendor to location after verification
-    path('api/admin/addvendor',views.add_vendor_to_location),
+    path('api/admin/addvendor', views.add_vendor_to_location),
     # get all locations
-    path('api/admin/getlocation',views.get_location)
+    path('api/admin/getlocation', views.get_location),
+
+    # for schemes upload
+    path('api/admin/uploadscheme', views.add_scheme_post),
+    path('api/admin/getschemes', views.get_schemes)
 ]
