@@ -31,7 +31,8 @@ def register(request):
     response = Response()
     response.set_cookie(key="jwt", value=token, httponly=True)
     response.data = {
-            "token": token
+            "token": token,
+            "id": str(new_vendor.id)
             }
 
     return response 
@@ -48,7 +49,8 @@ def auth_token(request):
         return Response({"Authentication Failed": "Invalid Token"})
     print(user.to_json())
     return Response({
-            "token": user.session.token 
+            "token": user.session.token, 
+            "id": str(user.id)
         })
 
 @api_view(["POST"])
