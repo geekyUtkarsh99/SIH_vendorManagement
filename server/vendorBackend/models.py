@@ -59,12 +59,17 @@ class CertModel(Document):
     details = EmbeddedDocumentField(DetailModel)
     request_date = DateField()
 
+class Bussiness(EmbeddedDocument):
+    name = StringField(max_length=100)
+    type = StringField(max_length=100)
+    open_time = StringField(max_length=100)
+    close_time = StringField(max_length=100)
+
 # TODO: Photos ? 
 class LicenseModel(Document):
     vendorId = StringField(max_length=100)
     area_id = StringField(max_length=100)
-    bussiness_name = StringField()
-    bussiness_type = StringField()
+    bussiness_details = EmbeddedDocumentField(Bussiness)
     valid_limit = IntField()
     signed = EmbeddedDocumentField(SignatureModel)
     status = EmbeddedDocumentField(Status) 
