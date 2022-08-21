@@ -9,6 +9,7 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+import { useState } from "react";
 
 const containerStyle = {
   height: "100vh",
@@ -24,20 +25,45 @@ const onLoad = (marker) => {
 };
 
 export default function AreaAllocator() {
+  const [markers, setMarkers] = React.useState([]);
+
   return (
     // Important! Always set the container height explicitly
     <div style={{ height: "100vh", width: "100wh" }}>
       <LoadScript googleMapsApiKey="AIzaSyCxdc58Bj4jL2Q_v9IxN5fvcDbqbxOD8Ag">
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={10}
+          onClick={(e) => {
+              setMarkers((current) => [
+                ...current,
+                {
+                  lat: e.latLng.lat(),
+                  lng: e.latLng.lng(),
+                  time: new Date(),
+                },
+              ]);
+
+          }}
+        >
           {/* Child components, such as markers, info windows, etc. */}
           <>
-            <Marker
-              onLoad={onLoad}
-              position={{
-                lat: center.lat,
-                lng: center.lng,
-              }}
-            />
+            {markers.map((marker) => (
+              <Marker
+              key={marker.time.toISOString()}
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
+                }}
+                icon={{
+                  url: "/vendor_icon.svg",
+                  scaledSize: new window.google.maps.Size(30,30),
+                  origin: new window.google.maps.Point(0,0),
+                  anchor: new window.google.maps.Point(15, 15),
+                }}
+              />
+            ))}
           </>
         </GoogleMap>
       </LoadScript>

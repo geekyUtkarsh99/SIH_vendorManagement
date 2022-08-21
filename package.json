@@ -15,6 +15,7 @@
     "@types/react-dom": "^17.0.14",
     "bootstrap": "^5.2.0",
     "bootstrap-icons": "^1.9.1",
+    "data-fns": "^0.1.8",
     "globally": "^0.0.0",
     "google-map-react": "^2.2.0",
     "react": "^17.0.2",
