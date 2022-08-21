@@ -59,16 +59,43 @@ class CertModel(Document):
     details = EmbeddedDocumentField(DetailModel)
     request_date = DateField()
 
+<<<<<<< HEAD
 # TODO: Photos ? 
 class LicenseModel(Document):
+||||||| 490f30e
+class License(Document):
+    #TODO:Photos
+=======
+class Bussiness(EmbeddedDocument):
+    name = StringField(max_length=100)
+    type = StringField(max_length=100)
+    open_time = StringField(max_length=100)
+    close_time = StringField(max_length=100)
+
+# TODO: Photos ? 
+class LicenseModel(Document):
+>>>>>>> 4445fe7d1e006ddc2976575992c05dbcd6b68810
     vendorId = StringField(max_length=100)
     area_id = StringField(max_length=100)
+<<<<<<< HEAD
     bussiness_name = StringField()
     bussiness_type = StringField()
     valid_limit = IntField()
     signed = EmbeddedDocumentField(SignatureModel)
     status = EmbeddedDocumentField(Status) 
     request_date = DateField()
+||||||| 490f30e
+    bussiness_name = StringField()
+    bussiness_type = StringField()
+    issued_on = DateField()
+    valid_till = DateField()
+=======
+    bussiness_details = EmbeddedDocumentField(Bussiness)
+    valid_limit = IntField()
+    signed = EmbeddedDocumentField(SignatureModel)
+    status = EmbeddedDocumentField(Status) 
+    request_date = DateField()
+>>>>>>> 4445fe7d1e006ddc2976575992c05dbcd6b68810
 
 ##------------------------------------------------------------------------------
 
