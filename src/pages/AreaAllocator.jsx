@@ -6,11 +6,26 @@ import {
   LoadScript,
   Marker,
   InfoWindow,
+  Circle,
 } from "@react-google-maps/api";
 
 const containerStyle = {
   height: "100vh",
   width: "100%",
+};
+
+const options = {
+  strokeColor: "#FF0000",
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: "#FF0000",
+  fillOpacity: 0.35,
+  clickable: false,
+  draggable: false,
+  editable: false,
+  visible: true,
+  radius: 5000,
+  zIndex: 1,
 };
 
 const center = {
@@ -47,22 +62,22 @@ export default function AreaAllocator() {
           {/* Child components, such as markers, info windows, etc. */}
           <>
             {markers.map((marker) => (
-              <Marker
-                key={marker.time.toISOString()}
-                position={{
-                  lat: marker.lat,
-                  lng: marker.lng,
-                }}
-                icon={{
-                  url: "/vendor_ico.svg",
-                  scaledSize: new window.google.maps.Size(70, 70),
-                  origin: new window.google.maps.Point(0, 0),
-                  anchor: new window.google.maps.Point(15, 15),
-                }}
-                onClick={() => {
-                  setSelectedMarker(marker);
-                }}
-              />
+              <>
+                <Marker
+                  key={marker.time.toISOString()}
+                  position={{
+                    lat: marker.lat,
+                    lng: marker.lng,
+                  }}
+                  onClick={() => {
+                    setSelectedMarker(marker);
+                  }}
+                />
+                <Circle center={{
+                    lat: marker.lat,
+                    lng: marker.lng,
+                  }} options={options} />
+              </>
             ))}
             {selectedMarker ? (
               <InfoWindow
@@ -71,10 +86,11 @@ export default function AreaAllocator() {
                   setSelectedMarker(null);
                 }}
               >
-                <div>
+                <div className="container p-4">
                   <h6>Vendor position</h6>
                   <p> Longitude = {selectedMarker.lat}</p>
                   <p> Latitude = {selectedMarker.lng}</p>
+                  <button type="button" className="btn btn-outline-primary position-absolute bottom-0 end-0 m-2 ">Primary</button>
                 </div>
               </InfoWindow>
             ) : null}
