@@ -1,5 +1,8 @@
 // api key=AIzaSyCxdc58Bj4jL2Q_v9IxN5fvcDbqbxOD8Ag;
 import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import Form from 'react-bootstrap/Form';
 
 import {
   GoogleMap,
@@ -15,10 +18,10 @@ const containerStyle = {
 };
 
 const options = {
-  strokeColor: "#FF0000",
+  strokeColor: "#96948f",
   strokeOpacity: 0.8,
   strokeWeight: 2,
-  fillColor: "#FF0000",
+  fillColor: "#c4c1b9",
   fillOpacity: 0.35,
   clickable: false,
   draggable: false,
@@ -49,6 +52,48 @@ export default function AreaAllocator() {
 
   const [selectedMarker, setSelectedMarker] = React.useState(null);
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  function OffCanvasExample({ ...props }) {
+    return (
+      <>
+        <Button
+          variant="primary"
+          onClick={handleShow}
+          className="btn btn-outline position-absolute bottom-0 end-0 m-2"
+        >
+          Add Area
+        </Button>
+        <Offcanvas show={show} onHide={handleClose} placement="end">
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Locate Me</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <Form>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Radius</Form.Label>
+                <Form.Control type="text"/>
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Limit</Form.Label>
+                <Form.Control type="text"/>
+              </Form.Group>
+              <Button variant="primary"  className="btn btn-primary mx-2" type="submit">
+                Update Area
+              </Button>
+              <Button variant="primary" className="btn btn-danger" type="submit">
+                Delete Area
+              </Button>
+            </Form>
+          </Offcanvas.Body>
+        </Offcanvas>
+      </>
+    );
+  }
+
   return (
     // Important! Always set the container height explicitly
     <div style={{ height: "100vh", width: "100wh" }}>
@@ -73,10 +118,13 @@ export default function AreaAllocator() {
                     setSelectedMarker(marker);
                   }}
                 />
-                <Circle center={{
+                <Circle
+                  center={{
                     lat: marker.lat,
                     lng: marker.lng,
-                  }} options={options} />
+                  }}
+                  options={options}
+                />
               </>
             ))}
             {selectedMarker ? (
@@ -90,7 +138,7 @@ export default function AreaAllocator() {
                   <h6>Vendor position</h6>
                   <p> Longitude = {selectedMarker.lat}</p>
                   <p> Latitude = {selectedMarker.lng}</p>
-                  <button type="button" className="btn btn-outline-primary position-absolute bottom-0 end-0 m-2 ">Primary</button>
+                  <OffCanvasExample />
                 </div>
               </InfoWindow>
             ) : null}
