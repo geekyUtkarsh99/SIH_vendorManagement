@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 
 import {
   GoogleMap,
@@ -17,20 +17,6 @@ const containerStyle = {
   width: "100%",
 };
 
-const options = {
-  strokeColor: "#96948f",
-  strokeOpacity: 0.8,
-  strokeWeight: 2,
-  fillColor: "#c4c1b9",
-  fillOpacity: 0.35,
-  clickable: false,
-  draggable: false,
-  editable: false,
-  visible: true,
-  radius: 5000,
-  zIndex: 1,
-};
-
 const center = {
   lat: 28.656158,
   lng: 77.24102,
@@ -38,6 +24,20 @@ const center = {
 
 export default function AreaAllocator() {
   const [markers, setMarkers] = useState([]);
+
+  const options = {
+    strokeColor: "#96948f",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#c4c1b9",
+    fillOpacity: 0.35,
+    clickable: false,
+    draggable: false,
+    editable: false,
+    visible: true,
+    radius: 5000,
+    zIndex: 1,
+  };
 
   const mapOnClick = React.useCallback((e) => {
     setMarkers((current) => [
@@ -52,11 +52,32 @@ export default function AreaAllocator() {
 
   const [selectedMarker, setSelectedMarker] = React.useState(null);
 
-  const [show, setShow] = useState(false);
+  //For OffCanvas while adding the location and setting the limits and radius
+  function OffCanvasExample(props) {
+    const [show, setShow] = useState(false);
+    const [radius, setRadius] = useState(5000);
+    const onInput = (e) => {
+        setRadius(e.target.value);
+      },
+      onFormSubmit = (e) => {
+        setRadius(radius);
+        //remove
+        console.log(radius);
+      };
+    const [limit, setLimit] = useState(10),
+      onInputLimit = (e) => {
+        setLimit(e.target.value);
+      },
+      onFormSubmitLimit = (e) => {
+        setLimit(limit);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  function OffCanvasExample({ ...props }) {
+        //remove
+        console.log(limit);
+      };
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+//RETURN OF OFFCANVAS
     return (
       <>
         <Button
@@ -74,17 +95,35 @@ export default function AreaAllocator() {
             <Form>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Radius</Form.Label>
-                <Form.Control type="text"/>
+                <Form.Control
+                  type="text"
+                  value={radius}
+                  onChange={onInput}
+                  autoComplete="off"
+                />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Limit</Form.Label>
-                <Form.Control type="text"/>
+                <Form.Control
+                  type="text"
+                  value={limit}
+                  onChange={onInputLimit}
+                  autoComplete="off"
+                />
               </Form.Group>
-              <Button variant="primary"  className="btn btn-primary mx-2" type="submit">
+              <Button
+                variant="primary"
+                className="btn btn-primary mx-2"
+                onClick={() => {
+                  onFormSubmit();
+                  onFormSubmitLimit();
+                  
+                }}
+              >
                 Update Area
               </Button>
-              <Button variant="primary" className="btn btn-danger" type="submit">
+              <Button variant="primary" className="btn btn-danger">
                 Delete Area
               </Button>
             </Form>
@@ -94,6 +133,7 @@ export default function AreaAllocator() {
     );
   }
 
+  //MAIN RETURN 
   return (
     // Important! Always set the container height explicitly
     <div style={{ height: "100vh", width: "100wh" }}>
@@ -106,7 +146,7 @@ export default function AreaAllocator() {
         >
           {/* Child components, such as markers, info windows, etc. */}
           <>
-            {markers.map((marker) => (
+            {markers.map((marker, index) => (
               <>
                 <Marker
                   key={marker.time.toISOString()}
@@ -118,13 +158,13 @@ export default function AreaAllocator() {
                     setSelectedMarker(marker);
                   }}
                 />
-                <Circle
-                  center={{
-                    lat: marker.lat,
-                    lng: marker.lng,
-                  }}
-                  options={options}
-                />
+                  <Circle
+                    center={{
+                      lat: marker.lat,
+                      lng: marker.lng,
+                    }}
+                    options={options}
+                  />
               </>
             ))}
             {selectedMarker ? (
@@ -138,7 +178,7 @@ export default function AreaAllocator() {
                   <h6>Vendor position</h6>
                   <p> Longitude = {selectedMarker.lat}</p>
                   <p> Latitude = {selectedMarker.lng}</p>
-                  <OffCanvasExample />
+                  <OffCanvasExample lat={selectedMarker.lat} lng={selectedMarker.lng}/>
                 </div>
               </InfoWindow>
             ) : null}
