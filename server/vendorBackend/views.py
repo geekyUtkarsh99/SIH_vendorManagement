@@ -1,4 +1,6 @@
+import datetime
 import json
+import time
 
 import jwt
 from mongoengine.queryset import update
@@ -10,15 +12,17 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from .serializers import TestSerializer, adminSerializer, SchemeSerializer
+from .serializers import TestSerializer, adminSerializer, SchemeSerializer, AreaSerializer
 from .models import TestModel
 from rest_framework import status, request as req
 from .MongoOperations import mdbHandler as mdops
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import admin, Area, vendor_id, SchemesModel
+from .models import admin, Area, vendor_id, SchemesModel, LicenseModel
 from .vendor_views import auth
 import cloudinary
 import cloudinary.uploader
+from datetime import datetime as dt
+import ast
 
 config = cloudinary.config(
     secure=True,
@@ -121,40 +125,51 @@ def register_admin(request):
 
 @api_view(["POST"])
 def add_new_location(request):
+    # try:
+    postdata = request.data
+    # postdata['area']['area_id'] = utils.create_random_token(16)
+    # admin_query = admin.objects(admin_id=postdata['admin_id']).get()
+    # print(postdata)
+    # area_new = Area(**postdata['area'])
+    # admin_query.Area.append(area_new)
+    # admin_query.save()
     try:
-        postdata = request.data
-        postdata['area']['area_id'] = utils.create_random_token(16)
-        admin_query = admin.objects(admin_id=postdata['admin_id']).get()
-        print(postdata)
-        area_new = Area(**postdata['area'])
-        admin_query.Area.append(area_new)
-        admin_query.save()
+        area = Area(area_id=utils.create_random_token(16)
+                    , lat=postdata['lat'],
+                    long=postdata['long'],
+                    name=postdata['name']
+                    , ven_no=postdata['ven_no'],
+                    ven_limit=postdata['ven_limit'], radius=postdata['radius'], city=postdata['city'])
+        area.save()
+
         return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
-    except: return JsonResponse({"message": "Invalid Area"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
+    except:
+        return JsonResponse({"message": "Invalid Area"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
+
+
+# else :
+
+
+# except:
+#     return JsonResponse({"message": "Invalid Area"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
+
 
 @api_view(['GET', 'POST'])
 def get_location(request):
     payload = request.data
-    try:
-        if payload['type'] == 0:
-            admin_query = admin.objects.get(admin_id=payload['admin_id'])
-            ls = []
-            for i in admin_query.Area:
-                ls.append(json.loads(i.to_json()))
+    # try:
+    admin_query = Area.objects(city=payload['city'])
+    ls = []
+    for i in admin_query:
+        ls.append(json.loads(i.to_json()))
 
-            print(ls)
-            return JsonResponse({"status": 200, 'response': ls}, status=status.HTTP_200_OK, safe=False)
-        elif payload['type'] == 1:
-            admin_query = admin.objects.get(city=payload['city'])
-            ls = []
-            for i in admin_query.Area:
-                ls.append(json.loads(i.to_json()))
+    print(ls)
+    return JsonResponse({"status": 200, 'response': ls}, status=status.HTTP_200_OK, safe=False)
 
-            print(ls)
-            return JsonResponse({"status": 200, 'response': ls}, status=status.HTTP_200_OK, safe=False)
-    except:
-        return JsonResponse({"status": 500, "message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            safe=False)
+
+# except:
+#     return JsonResponse({"status": 500, "message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+#                         safe=False)
 
 
 @api_view(['POST'])
@@ -176,36 +191,39 @@ def add_scheme_post(request):
     data = JSONParser().parse(request)
     # cloudinary operations
     schemes = SchemesModel(
-        admin_id = data['admin_id'],
-        city = data['city'],
-        title = data['title'],
-        description  = data["description"],
+        admin_id=data['admin_id'],
+        city=data['city'],
+        title=data['title'],
+        description=data["description"],
     )
     schemes.save()
     schemes.update(
         image=upload_image(data["image_base"], str(schemes.id))
-            )
+    )
     return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
+
 
 @api_view(['POST'])
 def update_scheme_post(request):
     data = JSONParser().parse(request)
     # cloudinary operations
-    schemes_query =  SchemesModel.objects(id=data["scheme_id"]).first()
+    schemes_query = SchemesModel.objects(id=data["scheme_id"]).first()
     schemes_query.update(
         title=data["title"],
         description=data["description"],
-        image=upload_image(data["image"], str(schemes.id))
-            )
+        image=upload_image(data["image"], str(schemes_query.id))
+    )
     return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
+
 
 @api_view(['POST'])
 def delete_scheme_post(request):
     data = JSONParser().parse(request)
     # cloudinary operations
-    schemes_query =  SchemesModel.objects(id=data["scheme_id"]).first()
+    schemes_query = SchemesModel.objects(id=data["scheme_id"]).first()
     schemes_query.delete()
     return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
+
 
 @api_view(['POST'])
 def get_schemes(request):
@@ -232,6 +250,59 @@ def get_schemes(request):
     except:
         return JsonResponse({"status": 500, "message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             safe=False)
+
+
+@api_view(['POST'])
+def validate_location(request):
+    payload = request.data
+    # lic_frame = LicenseModel.objects(id=payload['id'])
+    # j_data = None
+    # for i in lic_frame:
+    #     j_data = i.to_json()
+    #     print(j_data)
+    # j_data = json.loads(j_data)
+
+    '''
+    0 - inside 
+    1 - early 
+    2 - late
+    3 - outside 
+    '''
+    area = Area.objects(area_id=payload['area_id'])
+    ar_data = None
+    for j in area:
+        ar_data = json.loads(j.to_json())
+        # print(j.to_json())
+
+    dist = utils.get_dist(payload['lat'], payload['long'], ar_data['lat'], ar_data['long'], ar_data['radius'])
+    # print("dist :", dist)
+    t = datetime.time()
+    cur_time = datetime.datetime(1947, 12,1, t.hour, t.minute)
+
+    if dist < ar_data['radius']:
+        ls = payload['open_time']
+        open_t = datetime.datetime(1947, 12,1, ls[0], ls[1])
+        ls1 = payload['close_time']
+        close_t = datetime.datetime(1947, 12,1, ls1[0], ls1[1])
+
+        print("cur_time: ", cur_time)
+        print("open: " , open_t)
+        print("close: " , close_t)
+
+        if cur_time < open_t:
+            return JsonResponse({"status": 200, "response": 1}, status=status.HTTP_200_OK, safe=False)
+
+        if cur_time > close_t:
+            return JsonResponse({"status": 200, "response": 2}, status=status.HTTP_200_OK, safe=False)
+
+        return JsonResponse({"status": 200, "response": 0}, status=status.HTTP_200_OK, safe=False)
+
+    return JsonResponse({"status": 200, "response": 3}, status=status.HTTP_200_OK, safe=False)
+
+
+"""
+utility functions 
+"""
 
 
 def upload_image(img_src, id):

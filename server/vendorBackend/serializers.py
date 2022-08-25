@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import CertModel, CustomerModel, LicenseModel, SchemesModel, Status, TestModel, VendorModel, admin, \
-    CustomercomplainModel
+from .models import CertModel, CustomerModel, LicenseModel, SchemesModel, Status, TestModel, VendorModel, admin,CustomercomplainModel , Area
 from rest_framework_mongoengine import serializers
 
 
@@ -11,6 +10,9 @@ class TestSerializer(serializers.DocumentSerializer):
                   'val1',
                   'val2')
 
+class AreaSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Area
 
 class SchemeSerializer(serializers.DocumentSerializer):
     class Meta:
