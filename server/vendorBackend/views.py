@@ -1,6 +1,8 @@
 import json
 
 import jwt
+from mongoengine.queryset import update
+from rest_framework.response import Response
 
 from . import utils
 from django.shortcuts import render
@@ -8,13 +10,22 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from .serializers import TestSerializer, adminSerializer
+from .serializers import TestSerializer, adminSerializer, SchemeSerializer
 from .models import TestModel
 from rest_framework import status, request as req
 from .MongoOperations import mdbHandler as mdops
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import admin, Area, vendor_id
+from .models import admin, Area, vendor_id, SchemesModel
 from .vendor_views import auth
+import cloudinary
+import cloudinary.uploader
+
+config = cloudinary.config(
+    secure=True,
+    api_key="879963674368385",
+    api_secret="TiBlP74DD9AxmdTqK8r1oOWCPQE",
+    cloud_name="sristspace"
+)
 
 
 def check_user_existence(uid):
@@ -27,22 +38,23 @@ def check_user_existence(uid):
 
 def require_token(func):
     def wrapper(request):
-        try:
-            if 'jwtToken' in request.headers:
-                token = request.headers['jwtToken']
-            else:
-                return JsonResponse({"message": "token is missing", "status": 400},
-                                    status=status.HTTP_400_BAD_REQUEST, safe=False)
-            data = jwt.decode(token, 'secret_need_to_be_assigned', algorithms=['HS256'])
-            print(data['id'])
-            if check_user_existence(data['id']):
-                return func(request)
-            else:
-                return JsonResponse({"message": "token incorrect", "status": 500},
-                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR, safe=False)
-        except:
-            return JsonResponse({"message": "token expired", "status": 500},
+        # try:
+        if 'jwtToken' in request.headers:
+            token = request.headers['jwtToken']
+        else:
+            return JsonResponse({"message": "token is missing", "status": 400},
+                                status=status.HTTP_400_BAD_REQUEST, safe=False)
+        data = jwt.decode(token, 'secret_need_to_be_assigned', algorithms=['HS256'])
+        print(data['id'])
+        if check_user_existence(data['id']):
+            return func(request)
+        else:
+            return JsonResponse({"message": "token incorrect", "status": 500},
                                 status=status.HTTP_500_INTERNAL_SERVER_ERROR, safe=False)
+
+    # except:
+    #     return JsonResponse({"message": "token expired", "status": 500},
+    #                         status=status.HTTP_500_INTERNAL_SERVER_ERROR, safe=False)
 
     return wrapper
 
@@ -50,7 +62,7 @@ def require_token(func):
 # Create your views here.
 
 def api_init():
-    return HttpResponse("Hello from API...")
+    return Response("Hello from api..")
 
 
 def renderProtocols(request):
@@ -120,7 +132,7 @@ def add_new_location(request):
         return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
     except: return JsonResponse({"message": "Invalid Area"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
 
-@api_view(['GET','POST'])
+@api_view(['GET', 'POST'])
 def get_location(request):
     payload = request.data
     try:
@@ -157,6 +169,76 @@ def add_vendor_to_location(request):
             j.ven_no.append(ven_info)
     admin_query.save()
     return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
+
+
+@api_view(['POST'])
+def add_scheme_post(request):
+    data = JSONParser().parse(request)
+    # cloudinary operations
+    schemes = SchemesModel(
+        admin_id = data['admin_id'],
+        city = data['city'],
+        title = data['title'],
+        description  = data["description"],
+    )
+    schemes.save()
+    schemes.update(
+        image=upload_image(data["image_base"], str(schemes.id))
+            )
+    return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
+
+@api_view(['POST'])
+def update_scheme_post(request):
+    data = JSONParser().parse(request)
+    # cloudinary operations
+    schemes_query =  SchemesModel.objects(id=data["scheme_id"]).first()
+    schemes_query.update(
+        title=data["title"],
+        description=data["description"],
+        image=upload_image(data["image"], str(schemes.id))
+            )
+    return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
+
+@api_view(['POST'])
+def delete_scheme_post(request):
+    data = JSONParser().parse(request)
+    # cloudinary operations
+    schemes_query =  SchemesModel.objects(id=data["scheme_id"]).first()
+    schemes_query.delete()
+    return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
+
+@api_view(['POST'])
+def get_schemes(request):
+    try:
+        payload = request.data
+
+        if payload['type'] == 0:
+
+            schemes_query = SchemesModel.objects(admin_id=payload['admin_id'])
+            ls = []
+            for i in schemes_query:
+                print(i)
+                ls.append(json.loads(i.to_json()))
+
+            return JsonResponse({"status": 200, "response": ls}, status=status.HTTP_200_OK, safe=False)
+        elif payload['type'] == 1:
+            schemes_query = SchemesModel.objects(city=payload['city'])
+            ls = []
+            for i in schemes_query:
+                print(i)
+                ls.append(json.loads(i.to_json()))
+
+            return JsonResponse({"status": 200, "response": ls}, status=status.HTTP_200_OK, safe=False)
+    except:
+        return JsonResponse({"status": 500, "message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            safe=False)
+
+
+def upload_image(img_src, id):
+    cloudinary.uploader.upload("data:image/png;base64," + img_src, public_id=id, unique_filename=False, overwrite=True,
+                               folder="SIH")
+    srcURL = cloudinary.CloudinaryImage(id).build_url()
+    return srcURL
 
 
 # for test

@@ -4,6 +4,7 @@ import {
     MdKeyboardArrowDown
 } from "react-icons/md";
 export default function Cards() {
+    
     return (
         <>
             <Row className='my-2'>
@@ -21,7 +22,7 @@ export default function Cards() {
                         </Card.Body>
                     </Col>
                     <Col className='position-absolute top-0 end-0 mx-2'>
-                        <MdKeyboardArrowDown style={{background: '#ebe4e4'}}/>
+                        <MdKeyboardArrowDown style={{background: '#ebe4e4'}} />
                     </Col>
                 </Card>
             </Row>

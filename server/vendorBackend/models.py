@@ -1,8 +1,12 @@
-from mongoengine import Document, BooleanField, EmailField, EmbeddedDocument, ListField, StringField, IntField, DateField, EmbeddedDocumentField
+from mongoengine import Document, BooleanField, EmailField, EmbeddedDocument, ListField, StringField, IntField, \
+    DateField, EmbeddedDocumentField
 from random import choices
-from mongoengine import FloatField, Document, BooleanField, EmailField, EmbeddedDocument, ListField, StringField, IntField, DateField, EmbeddedDocumentField
+from mongoengine import FloatField, Document, BooleanField, EmailField, EmbeddedDocument, ListField, StringField, \
+    IntField, DateField, EmbeddedDocumentField
 import mongoengine
+
 mongoengine.connect(host="mongodb+srv://sihadmin:sihadmin@sih.2oqaj.mongodb.net/users?retryWrites=true&w=majority")
+
 
 # Create your models here.
 class TestModel(Document):
@@ -15,11 +19,13 @@ class SessionModel(EmbeddedDocument):
     token = StringField(max_length=1000)
     validtill = DateField()
 
+
 class DetailModel(EmbeddedDocument):
     name = StringField(max_length=100)
     dob = DateField()
     address = StringField(max_length=100)
     contact = StringField(max_length=10)
+
 
 class VendorModel(Document):
     username = StringField(max_length=100)
@@ -29,27 +35,33 @@ class VendorModel(Document):
     email = EmailField(max_length=200)
     rating = IntField(min_value=1, max_value=5)
 
+
 class DocumentModel(EmbeddedDocument):
     verId = StringField(max_length=100)
     verType = StringField(max_length=100)
     scan = StringField(max_length=100)
+
 
 class SignatureModel(EmbeddedDocument):
     authority = StringField(max_length=100)
     issuedOn = DateField()
     validTill = DateField()
 
+
 class NomineeDetails(EmbeddedDocument):
     name = StringField(max_length=100)
     relation = StringField(max_length=100)
+
 
 class NomineeModel(EmbeddedDocument):
     nominee1 = EmbeddedDocumentField(NomineeDetails)
     nominee2 = EmbeddedDocumentField(NomineeDetails)
 
+
 class Status(EmbeddedDocument):
     label = StringField(choices=["NOT VERIFIED", "VERIFIED", "REJECTED"])
     response = StringField()
+
 
 class CertModel(Document):
     vendorId = StringField(max_length=100)
@@ -57,9 +69,10 @@ class CertModel(Document):
     document = EmbeddedDocumentField(DocumentModel)
     signed = EmbeddedDocumentField(SignatureModel)
     nominees = EmbeddedDocumentField(NomineeModel)
-    status = EmbeddedDocumentField(Status) 
+    status = EmbeddedDocumentField(Status)
     details = EmbeddedDocumentField(DetailModel)
     request_date = DateField()
+
 
 class Bussiness(EmbeddedDocument):
     name = StringField(max_length=100)
@@ -67,14 +80,16 @@ class Bussiness(EmbeddedDocument):
     open_time = StringField(max_length=100)
     close_time = StringField(max_length=100)
 
+
 class LicenseModel(Document):
     vendorId = StringField(max_length=100)
     area_id = StringField(max_length=100)
     bussiness_details = EmbeddedDocumentField(Bussiness)
     valid_limit = IntField()
     signed = EmbeddedDocumentField(SignatureModel)
-    status = EmbeddedDocumentField(Status) 
+    status = EmbeddedDocumentField(Status)
     request_date = DateField()
+
 
 ##------------------------------------------------------------------------------
 
@@ -107,7 +122,7 @@ class Area(EmbeddedDocument):
     lat = FloatField()
     long = FloatField()
     name = StringField(max_length=50)
-    radius = IntField()
+    radius = FloatField()
     ven_no = ListField(EmbeddedDocumentField(vendor_id))
     ven_limit = IntField()
 
@@ -134,6 +149,15 @@ class admin(Document):
     # Area = ArrayField(model_container=Area, model_form_class=AreaForm)
     # object = DjongoManager()
 
+
+class SchemesModel(Document):
+    admin_id = StringField(max_length=16)
+    city = StringField(max_length=50)
+    title = StringField(max_length=120)
+    description = StringField(max_length=300)
+    image = StringField(max_length=200)
+
+
 ##----------------------------------------------------------------------------
 
 
@@ -142,12 +166,10 @@ class admin(Document):
 # CUSTOMER MODEL ----------------------------------------------------------------##
 
 class CustomerModel(Document):
-    name = StringField(max_length=50, default="")
-    phone = StringField(max_length=10)
-    ven_id = StringField(max_length=50, default="")
+    vendorId = StringField(max_length=50)
     description = StringField(default="")
-    sanitation = StringField(default="")
-    service = StringField(default="")
+    sanitation = FloatField(default="")
+    service = FloatField(default="")
     # objects = DjongoManager()
 
 

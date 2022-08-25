@@ -3,14 +3,12 @@
    description:
 """
 
-
-
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from vendorBackend.serializers import customerSerializer
 from vendorBackend.serializers import customercomplainSerializer
-from vendorBackend.models import CustomerModel
+from vendorBackend.models import CustomerModel, VendorModel
 from vendorBackend.models import CustomercomplainModel
 from rest_framework import status
 
@@ -22,6 +20,10 @@ def feedback(request):
     This method take feedback from the customer
     """
     datablock = JSONParser().parse(request)
+    vendor= VendorModel.objects(id=datablock["vendorId"])
+    vendor_feedback = CustomerModel.objects.filter(vendorId=datablock["vendorId"]).count()
+    new_rating = vendor_feedback * 0.01 * ((datablock["service"] + datablock["sanitation"] // 2) - vendor.rating)  # New rating as a function of previousrating
+    vendor.update(rating=new_rating)
     # print(datablock)
     serializer = customerSerializer(data=datablock) 
     if serializer.is_valid():
@@ -36,9 +38,6 @@ def feedback(request):
             "status"  : 400,
             "message" : "internal error",
             }, status=status.HTTP_400_BAD_REQUEST, safe=False)
-
-
-
 
 @api_view(['POST'])
 def complain(request):
