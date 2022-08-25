@@ -16,7 +16,7 @@ import Requests from "./pages/Requests";
 import Feedback from "./pages/Feedback";
 import Details from "./pages/Details";
 import Main from "./Main"
-
+import Auth from "./Components/Auth";
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
@@ -32,7 +32,7 @@ ReactDOM.render(
                     <Route path="feedback" element={<Feedback />} />
                     <Route path="Details" element={<Details />} />
                     
-                    <Route path="*" element={<Navigate to="vendor" replace />} />
+                    <Route path="/" element={<Navigate to="vendor" replace />} />
                 </Route>
             </Routes>
         </BrowserRouter>
