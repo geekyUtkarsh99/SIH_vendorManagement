@@ -15,12 +15,14 @@ import AreaAllocator from "./pages/AreaAllocator";
 import Requests from "./pages/Requests";
 import Feedback from "./pages/Feedback";
 import Details from "./pages/Details";
+import Main from "./Main"
 
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<App />}>
+                <Route exact path="/" element={<App />}>
+                <Route exact path="/main" element={<Main/>} />
                     <Route path="vendor" element={<VendorLookup />} />
                     <Route path="requests">
                         <Route index element={<Requests/>}/>
@@ -29,6 +31,7 @@ ReactDOM.render(
                     <Route path="areas" element={<AreaAllocator />} />
                     <Route path="feedback" element={<Feedback />} />
                     <Route path="Details" element={<Details />} />
+                    
                     <Route path="*" element={<Navigate to="vendor" replace />} />
                 </Route>
             </Routes>

@@ -1,32 +1,21 @@
-import React from 'react';
-import './App.css';
-import { Outlet } from 'react-router-dom'
-// import Auth from './components/Auth';
-
-import NavBar from './Components/NavBar'
-import SideBar from './partials/SideBar';
-import { Col, Container, Row } from 'react-bootstrap';
-
-// import Auth from './components/Auth';
+import React from "react";
+import "./App.css";
+import { Outlet } from "react-router-dom";
+// import NavBar from "./Components/NavBar";
+// import SideBar from "./partials/SideBar";
+// import { Col, Container, Row } from "react-bootstrap";
+import Main from "./Main";
+import Auth from "./Components/Auth";
 // import Register from './Components/Register';
 // import NavigationBar from './partials/Nav';
 
 function App() {
-    return (
-        <>
-            <div className='d-flex flex-row'>
-                <SideBar/>
-                <div className='d-flex flex-column w-100'>
-                    <NavBar />
-                    <Container >
-                        <main>
-                            <Outlet />
-                        </main>
-                    </Container>
-                </div>
-            </div>
-        </>
-    );
+  return (
+    <>
+      {/* <Auth/> */}
+      <Main />
+    </>
+  );
 }
 
 export default App;

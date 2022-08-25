@@ -145,7 +145,7 @@ export default function VendorLookup() {
                 width: " auto",
                 margin: "10px",
                 padding: "10px",
-                position: 'fixed'
+                position: "fixed",
               }}
             >
               <Popover.Header className="bg-light border-bottom-0">
@@ -170,14 +170,13 @@ export default function VendorLookup() {
         <Form.Control
           type="search"
           placeholder="Search"
-          className="me-2"
+          className="me-2 "
           aria-label="Search"
         />
-        {/* <Button variant="outline-dark">filters</Button> */}
-        {/* Component for the filter button  */}
+     
         <FilterButton />
       </Form>
-      <div className="container p-0 ">
+      <div className="container">
         {[
           1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         ].map((e, i) => (

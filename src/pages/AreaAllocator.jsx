@@ -1,5 +1,5 @@
 // api key=AIzaSyCxdc58Bj4jL2Q_v9IxN5fvcDbqbxOD8Ag;
-import React from "react";
+import React, { useState } from "react";
 
 import {
   GoogleMap,
@@ -19,7 +19,7 @@ const center = {
 };
 
 export default function AreaAllocator() {
-  const [markers, setMarkers] = React.useState([]);
+  const [markers, setMarkers] = useState([]);
 
   const mapOnClick = React.useCallback((e) => {
     setMarkers((current) => [
@@ -34,7 +34,6 @@ export default function AreaAllocator() {
 
   const [selectedMarker, setSelectedMarker] = React.useState(null);
 
-  
   return (
     // Important! Always set the container height explicitly
     <div style={{ height: "100vh", width: "100wh" }}>
