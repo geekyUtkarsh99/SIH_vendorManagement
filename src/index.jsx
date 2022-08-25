@@ -17,12 +17,15 @@ import Feedback from "./pages/Feedback";
 import Details from "./pages/Details";
 import Main from "./Main";
 import Auth from "./Components/Auth";
+import Register from "./Components/Register";
+import Notifications from "./pages/Notifications";
+import Post from "./pages/Post";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<App />}>
-          <Route exact path="../main" element={<Main />} />
+        <Route exact path="/" element={<App />}></Route>
+        <Route exact path="main" element={<Main />}>
           <Route path="vendor" element={<VendorLookup />} />
           <Route path="requests">
             <Route index element={<Requests />} />
@@ -31,10 +34,13 @@ ReactDOM.render(
           <Route path="areas" element={<AreaAllocator />} />
           <Route path="feedback" element={<Feedback />} />
           <Route path="Details" element={<Details />} />
-          <Route path="login" element={<Auth />} />
 
-          <Route path="/" element={<Navigate to="vendor" replace />} />
+          <Route path="notifications" element={<Notifications />} />
+          <Route path="notifications/post" element={<Post />} />
         </Route>
+        <Route path="login" element={<Auth />} />
+        <Route path="register" element={<Register />} />
+        <Route path="/" element={<Navigate to="login" replace />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
