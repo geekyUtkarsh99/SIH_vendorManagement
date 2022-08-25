@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button, Container } from "react-bootstrap";
 
 const Register = () => {
-	const navigate=useNavigate();
+  const navigate = useNavigate();
   const [credential, setCredential] = useState({
     username: "",
     password: "",
@@ -38,13 +38,12 @@ const Register = () => {
         date: credential.date,
         city: credential.city,
         state: credential.state,
-       
       }),
     });
 
-    if(response.message==='success')
-    {
-      navigate('login')
+    if (response.message === "success") {
+      alert("successfully register");
+      navigate("login");
     }
   };
 
