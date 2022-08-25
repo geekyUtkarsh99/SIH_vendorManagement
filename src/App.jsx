@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 // import SideBar from "./partials/SideBar";
 // import { Col, Container, Row } from "react-bootstrap";
 import Main from "./Main";
-import Auth from "./Components/Auth";
+// import Auth from "./Components/Auth";
 // import Register from './Components/Register';
 // import NavigationBar from './partials/Nav';
 

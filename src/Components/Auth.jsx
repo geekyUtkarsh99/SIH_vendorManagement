@@ -25,7 +25,8 @@ function Auth() {
     );
     console.log(response.ok);
     if (response.ok === true) {
-      return navigate("main");
+      console.log("main");
+      return navigate("../main");
     } else {
       return alert("Invalid credentials");
     }
