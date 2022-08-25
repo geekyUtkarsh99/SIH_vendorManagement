@@ -23,11 +23,12 @@ function Auth() {
         },
       }
     );
-    console.log(response.ok);
+
     if (response.ok === true) {
-      return navigate("main");
+      console.log(response.ok);
+      navigate("main");
     } else {
-      return alert("Invalid credentials");
+      alert("Invalid credentials or register first");
     }
   };
   return (
@@ -62,7 +63,13 @@ function Auth() {
             Login
           </Button>
         </Form>
-        <Button variant="info" className="my-2 w-100">
+        <Button
+          variant="info"
+          className="my-2 w-100"
+          onClick={() => {
+            navigate("register");
+          }}
+        >
           Register
         </Button>
       </Container>

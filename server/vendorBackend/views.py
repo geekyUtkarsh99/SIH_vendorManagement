@@ -227,29 +227,24 @@ def delete_scheme_post(request):
 
 @api_view(['POST'])
 def get_schemes(request):
-    try:
-        payload = request.data
+    payload = JSONParser().parse(request)
 
-        if payload['type'] == 0:
+    if payload['type'] == 0:
+        schemes_query = SchemesModel.objects(admin_id=payload['admin_id'])
+        ls = []
+        for i in schemes_query:
+            print(i)
+            ls.append(json.loads(i.to_json()))
 
-            schemes_query = SchemesModel.objects(admin_id=payload['admin_id'])
-            ls = []
-            for i in schemes_query:
-                print(i)
-                ls.append(json.loads(i.to_json()))
+        return JsonResponse({"status": 200, "response": ls}, status=status.HTTP_200_OK, safe=False)
+    elif payload['type'] == 1:
+        schemes_query = SchemesModel.objects(city=payload['city'])
+        ls = []
+        for i in schemes_query:
+            print(i)
+            ls.append(json.loads(i.to_json()))
 
-            return JsonResponse({"status": 200, "response": ls}, status=status.HTTP_200_OK, safe=False)
-        elif payload['type'] == 1:
-            schemes_query = SchemesModel.objects(city=payload['city'])
-            ls = []
-            for i in schemes_query:
-                print(i)
-                ls.append(json.loads(i.to_json()))
-
-            return JsonResponse({"status": 200, "response": ls}, status=status.HTTP_200_OK, safe=False)
-    except:
-        return JsonResponse({"status": 500, "message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            safe=False)
+        return JsonResponse({"status": 200, "response": ls}, status=status.HTTP_200_OK, safe=False)
 
 
 @api_view(['POST'])
