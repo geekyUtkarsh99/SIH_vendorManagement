@@ -22,6 +22,7 @@ urlpatterns = [
     path('api/get_certificate', certification.get_vendor_certificate, name="get_certification"),
     path('api/get_all_certificate', certification.get_certificates, name="get_all_certification"),
     path('api/sign_certificate', certification.sign_certificate, name="sign_certificate"),
+    path('api/reject_certificate', certification.reject_certificate, name="reject_certificate"),
 
     path('api/create_license', create_license, name="create_license"),
     path('api/get_license', get_vendor_license, name="get_license"),

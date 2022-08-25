@@ -101,7 +101,8 @@ def login(request):
     response = Response()
     response.set_cookie(key="jwt", value=token, httponly=True)
     response.data = {
-            "token": token
+            "token": token,
+            "id": str(user.id)
             }
 
     return response 
@@ -115,15 +116,15 @@ def createToken(id: str) -> str:
     """
     payload = {
             "id": id,
-            "exp": datetime.utcnow() + timedelta(minutes=60),
+            "exp": datetime.utcnow() + timedelta(days=1),
             "iat": datetime.utcnow()
         }
     token = jwt.encode(payload, 'secret_need_to_be_assigned', algorithm="HS256").format('utf-8') 
     return token
 
 def checkValid(token: str) -> bool:
-    data = jwt.decode(token, 'secret_need_to_be_assigned', algorithms=["HS256"])
-    token_validtill = datetime.fromtimestamp(data["exp"])
-    if datetime.now() > token_validtill:
-        return False
+    try:
+        jwt.decode(token, 'secret_need_to_be_assigned', algorithms=["HS256"])
+    except Exception as e:
+        return False 
     return True 

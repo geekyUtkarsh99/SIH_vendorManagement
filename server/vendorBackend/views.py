@@ -118,9 +118,7 @@ def add_new_location(request):
         admin_query.Area.append(area_new)
         admin_query.save()
         return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
-    except:
-        return JsonResponse({"status": 406, "message": "failed"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
-
+    except: return JsonResponse({"message": "Invalid Area"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
 
 @api_view(['GET','POST'])
 def get_location(request):

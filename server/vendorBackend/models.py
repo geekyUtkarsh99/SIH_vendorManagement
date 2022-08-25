@@ -107,8 +107,10 @@ class Area(EmbeddedDocument):
     lat = FloatField()
     long = FloatField()
     name = StringField(max_length=50)
+    radius = IntField()
     ven_no = ListField(EmbeddedDocumentField(vendor_id))
     ven_limit = IntField()
+
     class Meta:
         abstract = True
 
