@@ -38,7 +38,7 @@ const Register = () => {
         date: credential.date,
         city: credential.city,
         state: credential.state,
-        area: credential.area,
+       
       }),
     });
 
