@@ -106,6 +106,19 @@ def sign_certificate(request):
     ), status__label="VERIFIED", status__response=data["response"] if "response" in data else "")
     return Response({"message": "signature successful"})
 
+@api_view(["POST"])
+def reject_certificate(request):
+    data = JSONParser().parse(request)
+    # TODO: Check if admin exists
+    cert = CertModel.objects.filter(
+        id=data["certificate_id"],
+        status__label="NOT VERIFIED"
+    )
+    if cert is None:
+        return Response({"error": "Valid certificate not found"}, status=status.HTTP_404_NOT_FOUND)
+    cert.update(status__label="REJECTED", status__response=data["response"] if "response" in data else "")
+    return Response({"message": "signature successful"})
+
 # TODO: updation of certificate
 # @api_view
 # def update_certification(request):

@@ -122,6 +122,7 @@ class Area(EmbeddedDocument):
     lat = FloatField()
     long = FloatField()
     name = StringField(max_length=50)
+    radius = FloatField()
     ven_no = ListField(EmbeddedDocumentField(vendor_id))
     ven_limit = IntField()
 
@@ -150,7 +151,6 @@ class admin(Document):
 
 
 class SchemesModel(Document):
-    sch_id = StringField(max_length=16)
     admin_id = StringField(max_length=16)
     city = StringField(max_length=50)
     title = StringField(max_length=120)
@@ -166,12 +166,10 @@ class SchemesModel(Document):
 # CUSTOMER MODEL ----------------------------------------------------------------##
 
 class CustomerModel(Document):
-    name = StringField(max_length=50, default="")
-    phone = StringField(max_length=10)
-    ven_id = StringField(max_length=50, default="")
+    vendorId = StringField(max_length=50)
     description = StringField(default="")
-    sanitation = StringField(default="")
-    service = StringField(default="")
+    sanitation = FloatField(default="")
+    service = FloatField(default="")
     # objects = DjongoManager()
 
 

@@ -1,6 +1,8 @@
 import json
 
 import jwt
+from mongoengine.queryset import update
+from rest_framework.response import Response
 
 from . import utils
 from django.shortcuts import render
@@ -60,7 +62,7 @@ def require_token(func):
 # Create your views here.
 
 def api_init():
-    return HttpResponse("Hello from API...")
+    return Response("Hello from api..")
 
 
 def renderProtocols(request):
@@ -128,9 +130,7 @@ def add_new_location(request):
         admin_query.Area.append(area_new)
         admin_query.save()
         return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
-    except:
-        return JsonResponse({"status": 406, "message": "failed"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
-
+    except: return JsonResponse({"message": "Invalid Area"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
 
 @api_view(['GET', 'POST'])
 def get_location(request):
@@ -172,21 +172,40 @@ def add_vendor_to_location(request):
 
 
 @api_view(['POST'])
-@require_token
 def add_scheme_post(request):
-    payload = JSONParser().parse(request)
+    data = JSONParser().parse(request)
     # cloudinary operations
-    payload['image'] = upload_image(payload['image_base'], payload['admin_id'])
-    payload['sch_id'] = utils.create_random_token(16)
+    schemes = SchemesModel(
+        admin_id = data['admin_id'],
+        city = data['city'],
+        title = data['title'],
+        description  = data["description"],
+    )
+    schemes.save()
+    schemes.update(
+        image=upload_image(data["image_base"], str(schemes.id))
+            )
+    return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
 
-    schemes_serializer = SchemeSerializer(data=payload)
-    if schemes_serializer.is_valid():
-        schemes_serializer.save()
-        return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
-    else:
-        return JsonResponse({"status": 500, "message": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            safe=False)
+@api_view(['POST'])
+def update_scheme_post(request):
+    data = JSONParser().parse(request)
+    # cloudinary operations
+    schemes_query =  SchemesModel.objects(id=data["scheme_id"]).first()
+    schemes_query.update(
+        title=data["title"],
+        description=data["description"],
+        image=upload_image(data["image"], str(schemes.id))
+            )
+    return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
 
+@api_view(['POST'])
+def delete_scheme_post(request):
+    data = JSONParser().parse(request)
+    # cloudinary operations
+    schemes_query =  SchemesModel.objects(id=data["scheme_id"]).first()
+    schemes_query.delete()
+    return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
 
 @api_view(['POST'])
 def get_schemes(request):
