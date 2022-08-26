@@ -23,8 +23,8 @@ def create_license(request):
     try:
         new_license.is_valid(raise_exception=True)
         new_license.validated_data.update(
-                status={"label" : "NOT VERIFIED"},
-                request_date = datetime.utcnow()
+                status={"label" : "VERIFIED"},
+                request_date = datetime.utcnow(),
             )
         vendor: VendorModel = VendorModel.objects(
             id=new_license.validated_data["vendorId"]).first()

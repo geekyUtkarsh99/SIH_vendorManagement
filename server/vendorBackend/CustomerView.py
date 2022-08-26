@@ -6,9 +6,10 @@
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from vendorBackend.serializers import customerSerializer
 from vendorBackend.serializers import customercomplainSerializer
-from vendorBackend.models import CustomerModel, VendorModel
+from vendorBackend.models import CustomerModel, VendorModel, LicenseModel
 from vendorBackend.models import CustomercomplainModel
 from rest_framework import status
 
@@ -22,7 +23,7 @@ def feedback(request):
     datablock = JSONParser().parse(request)
     vendor= VendorModel.objects(id=datablock["vendorId"])
     vendor_feedback = CustomerModel.objects.filter(vendorId=datablock["vendorId"]).count()
-    new_rating = vendor_feedback * 0.01 * ((datablock["service"] + datablock["sanitation"] // 2) - vendor.rating)  # New rating as a function of previousrating
+    new_rating = (datablock["service"] + datablock["sanitation"]) // 2 # New rating as a function of previousrating
     vendor.update(rating=new_rating)
     # print(datablock)
     serializer = customerSerializer(data=datablock) 
@@ -59,3 +60,22 @@ def complain(request):
             "status"  : 400,
             "message" : "internal error",
             }, status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+@api_view(['POST'])
+def send_warning(request):
+    """
+    This method sends warning to the vendor
+    """
+    datablock = JSONParser().parse(request)
+    vendor = VendorModel.objects(id=datablock["vendorId"]).first()
+    print(vendor.warning)
+    if vendor.warning == 3:
+        # Cancel License
+        licenses = LicenseModel.objects(id=datablock["vendorId"])
+        for lic in licenses:
+            print(lic)
+            lic.update(status={"label": "CANCELLED", "response": "Warning Exceedded"})
+    else:
+        vendor.update(__raw__ = {"$inc" : {"warning": 1}})
+    return Response({"message": "sucess"})
+

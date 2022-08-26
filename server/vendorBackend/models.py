@@ -1,3 +1,4 @@
+from bson.json_util import default
 from mongoengine import Document, BooleanField, EmailField, EmbeddedDocument, ListField, StringField, IntField, \
     DateField, EmbeddedDocumentField
 from random import choices
@@ -34,6 +35,7 @@ class VendorModel(Document):
     phone = StringField(max_length=10)
     email = EmailField(max_length=200)
     rating = IntField(min_value=1, max_value=5)
+    warning = IntField(min_value=0, max_value=3, default=0)
 
 
 class DocumentModel(EmbeddedDocument):
@@ -59,7 +61,7 @@ class NomineeModel(EmbeddedDocument):
 
 
 class Status(EmbeddedDocument):
-    label = StringField(choices=["NOT VERIFIED", "VERIFIED", "REJECTED"])
+    label = StringField(choices=["NOT VERIFIED", "VERIFIED", "REJECTED", "CANCELLED"])
     response = StringField()
 
 
@@ -86,7 +88,6 @@ class LicenseModel(Document):
     area_id = StringField(max_length=100)
     bussiness_details = EmbeddedDocumentField(Bussiness)
     valid_limit = IntField()
-    signed = EmbeddedDocumentField(SignatureModel)
     status = EmbeddedDocumentField(Status)
     request_date = DateField()
 
