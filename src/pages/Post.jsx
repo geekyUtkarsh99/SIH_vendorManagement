@@ -40,6 +40,7 @@ const Post = () => {
           city: "bhopal",
           image: "",
           image_base: img,
+          
         }),
       }
     );

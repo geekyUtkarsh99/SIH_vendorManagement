@@ -40,7 +40,7 @@ const Notifications = () => {
       </div>
       {apiData !== undefined
         ? apiData.response.map((data) => (
-            <Row className="my-2">
+            <Row className="my-2" key={data.id}>
               <Card style={{ flexDirection: "row" }}>
                 <Col className="col-12">
                   <Card.Body className="px-2">
@@ -55,10 +55,10 @@ const Notifications = () => {
                         <div className="title text-muted">
                           <b>Posted on</b>
                           <br />
-                          {data.post_date}
+                          {Date(data.post_date.$date)}
                         </div>
                       </div>
-                      <div
+                      {/* <div
                         className="sub d-flex"
                         style={{ flexDirection: "column" }}
                       >
@@ -66,7 +66,7 @@ const Notifications = () => {
                           Edit
                         </Button>
                         <Button variant="danger">Primary</Button>
-                      </div>
+                      </div> */}
                     </div>
                   </Card.Body>
                 </Col>
