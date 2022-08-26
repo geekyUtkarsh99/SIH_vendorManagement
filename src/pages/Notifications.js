@@ -25,7 +25,7 @@ const Notifications = () => {
       console.log("error", error);
     }
   }, []);
-  console.log(apiData);
+  // console.log(apiData);
   return (
     <>
       <div className="d-flex justify-content-end">
@@ -39,7 +39,7 @@ const Notifications = () => {
         </Button>
       </div>
       {apiData !== undefined
-        ? apiData.map((data) => (
+        ? apiData.response.map((data) => (
             <Row className="my-2">
               <Card style={{ flexDirection: "row" }}>
                 <Col className="col-12">
@@ -47,17 +47,18 @@ const Notifications = () => {
                     <div className="main d-flex justify-content-between">
                       <div className="sub">
                         <div className="title text-muted">
-                          <b>{data.title}</b>
+                          <b>Title</b>
+
                           <br />
-                          <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Facilis, cupiditate.
-                          </p>
+                          <p>{data.title}</p>
                         </div>
                         <div className="title text-muted">
                           <b>Posted on</b>
                           <br />
-                          Date
+                          <img
+                            src={data.image}
+                            alt=""
+                          />
                         </div>
                       </div>
                       <div
@@ -74,7 +75,6 @@ const Notifications = () => {
             </Row>
           ))
         : "loading"}
-      ;
     </>
   );
 };
