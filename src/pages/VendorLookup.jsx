@@ -7,17 +7,18 @@ import Popover from "react-bootstrap/Popover";
 import { useState } from "react";
 
 export default function VendorLookup() {
-
   const [vendorArray, setVendorArray] = useState([]);
 
   useEffect(() => {
     const url = "http://127.0.0.1:8000/api/get_all_certificate";
     try {
-        fetch(url).then(response => response.json()).then(data => setVendorArray(data));
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => setVendorArray(data));
     } catch (error) {
-        console.log("error", error);
+      console.log("error", error);
     }
-}, []);
+  }, []);
 
   //fiterButton Code
 
@@ -186,13 +187,13 @@ export default function VendorLookup() {
           className="me-2 "
           aria-label="Search"
         />
-     
+
         <FilterButton />
       </Form>
       <div className="container">
-        {vendorArray.map((e, i) => (
+        {vendorArray.filter(e=>e.status.label==='VERIFIED').map((i) => (
           <Col lg={12}>
-            <Cards key={i} dataArray={vendorArray[i]}/>
+            <Cards dataArray={i} />
           </Col>
         ))}
       </div>
