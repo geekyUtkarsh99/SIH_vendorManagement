@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Form from "react-bootstrap/Form";
+import { useEffect } from "react";
 
 import {
   GoogleMap,
@@ -26,6 +27,22 @@ const center = {
 export default function AreaAllocator() {
   const [markers, setMarkers] = useState([]);
   const [newArea, setNewArea] = useState(null);
+  const [getLocatinData, setLocationData] = useState([]);
+
+  useEffect(async () => {
+    const result = await axios.post(
+      'http://127.0.0.1:8000/api/admin/getlocation',{city:'jaipur'}
+    ).then(response => setMarkers(
+      response.data.response.map(area => ({
+        lng: area.long,
+        lat: area.lat,
+        radius: area.radius
+      }))
+    ));
+
+    setLocationData(result);
+    console.log(result)
+  },[]);
 
   const options = {
     strokeColor: "#96948f",
@@ -115,8 +132,8 @@ export default function AreaAllocator() {
                   setNewArea(null);
                   axios.post("http://127.0.0.1:8000/api/admin/addarea", {
                     area_id: "213123",
-                    lat: selectedMarker.lat,
-                    long: selectedMarker.lng,
+                    lat: newArea.lat,
+                    long: newArea.lng,
                     name: "Hatwara vegetable market",
                     radius: newArea.radius,
                     city: "jaipur",
