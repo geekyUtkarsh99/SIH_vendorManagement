@@ -45,8 +45,8 @@ export default function AreaAllocator() {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
       radius: 100,
-      limit: 50,  
-      name: newArea.name,
+      limit: 50,
+      name:"",  
     });
   }, []);
 
@@ -105,7 +105,7 @@ export default function AreaAllocator() {
                 <Form.Control
                   type="text"
                   value={newArea.radius}
-                   onChange={onInput}
+                  onChange={onInput}
                   autoComplete="off"
                 />
               </Form.Group>
@@ -115,7 +115,7 @@ export default function AreaAllocator() {
                 <Form.Control
                   type="text"
                   value={newArea.limit}
-                   onChange={onInputLimit}
+                  onChange={onInputLimit}
                   autoComplete="off"
                 />
               </Form.Group>
