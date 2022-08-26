@@ -1,3 +1,4 @@
+from datetime import datetime
 import datetime
 import json
 import time
@@ -191,10 +192,11 @@ def add_scheme_post(request):
     data = JSONParser().parse(request)
     # cloudinary operations
     schemes = SchemesModel(
-        admin_id=data['admin_id'],
-        city=data['city'],
-        title=data['title'],
-        description=data["description"],
+        admin_id = data['admin_id'],
+        city = data['city'],
+        title = data['title'],
+        description  = data["description"],
+        post_date = datetime.now()
     )
     schemes.save()
     schemes.update(

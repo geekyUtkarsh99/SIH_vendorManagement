@@ -20,13 +20,18 @@ import Auth from "./Components/Auth";
 import Register from "./Components/Register";
 import Notifications from "./pages/Notifications";
 import Post from "./pages/Post";
+import VendorsDetails from './pages/VendorsDetails'
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<App />}></Route>
         <Route exact path="main" element={<Main />}>
-          <Route path="vendor" element={<VendorLookup />} />
+          <Route path="vendor">
+          <Route index element={<VendorLookup />} />
+            <Route path=":id" element={<VendorsDetails/>} />
+          </Route>
           <Route path="requests">
             <Route index element={<Requests />} />
             <Route path=":id" element={<Details />} />

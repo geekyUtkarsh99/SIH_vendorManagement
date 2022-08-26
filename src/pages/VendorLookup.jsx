@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Form } from "react-bootstrap";
 import Cards from "../partials/Cards";
 import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
+import { useState } from "react";
 
 export default function VendorLookup() {
+
+  const [vendorArray, setVendorArray] = useState([]);
+
+  useEffect(() => {
+    const url = "http://127.0.0.1:8000/api/get_all_certificate";
+    try {
+        fetch(url).then(response => response.json()).then(data => setVendorArray(data));
+    } catch (error) {
+        console.log("error", error);
+    }
+}, []);
+
   //fiterButton Code
 
   function FilterButton() {
@@ -177,11 +190,9 @@ export default function VendorLookup() {
         <FilterButton />
       </Form>
       <div className="container">
-        {[
-          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        ].map((e, i) => (
+        {vendorArray.map((e, i) => (
           <Col lg={12}>
-            <Cards key={i} />
+            <Cards key={i} dataArray={vendorArray[i]}/>
           </Col>
         ))}
       </div>
