@@ -48,5 +48,8 @@ urlpatterns = [
 
     # for schemes upload
     path('api/admin/uploadscheme', views.add_scheme_post),
-    path('api/admin/getschemes', views.get_schemes)
+    path('api/admin/getschemes', views.get_schemes),
+
+    # comparefe location
+    path('api/verifylocation' ,views.validate_location )
 ]
