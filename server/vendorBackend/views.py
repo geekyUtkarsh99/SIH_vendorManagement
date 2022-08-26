@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 
 import jwt
@@ -180,6 +181,7 @@ def add_scheme_post(request):
         city = data['city'],
         title = data['title'],
         description  = data["description"],
+        post_data = datetime.now()
     )
     schemes.save()
     schemes.update(

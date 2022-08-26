@@ -156,6 +156,7 @@ class SchemesModel(Document):
     title = StringField(max_length=120)
     description = StringField(max_length=300)
     image = StringField(max_length=200)
+    post_date = DateField()
 
 
 ##----------------------------------------------------------------------------
