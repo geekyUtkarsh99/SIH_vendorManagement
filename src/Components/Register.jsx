@@ -40,11 +40,7 @@ const Register = () => {
         state: credential.state,
       }),
     });
-
-    if (response.message === "success") {
-      alert("successfully register");
-      navigate("login");
-    }
+    console.log("success");
   };
 
   return (
