@@ -60,10 +60,8 @@ class adminSerializer(serializers.DocumentSerializer):
 class customerSerializer(serializers.DocumentSerializer):
     class Meta:
         model = CustomerModel
-        fields = ('name', 'phone', 'description', 'sanitation', 'service')
 
 
 class customercomplainSerializer(serializers.DocumentSerializer):
     class Meta:
         model = CustomercomplainModel
-        fields = ('name', 'phone', 'ven_id', 'description')

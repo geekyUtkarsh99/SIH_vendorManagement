@@ -104,8 +104,12 @@ def sign_certificate(request):
     )
     if cert is None:
         return Response({"error": "Valid certificate not found"}, status=status.HTTP_404_NOT_FOUND)
-    cert.update(signed__authority=data["admin_id"], signed__issuedOn=datetime.now(
-    ), status__label="VERIFIED", status__response=data["response"] if "response" in data else "")
+    cert.update(
+            signed__authority=data["admin_id"],
+            signed__issuedOn=datetime.now(), 
+            status__label="VERIFIED", 
+            status__response=data["response"] if "response" in data else ""
+            )
     return Response({"message": "signature successful"})
 
 

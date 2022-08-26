@@ -4,6 +4,7 @@ from vendorBackend.vendor_views.license import create_license, get_licenses, get
 from . import views
 from .vendor_views import auth
 from .vendor_views import certification
+from .vendor_views import vendor 
 from . import CustomerView
 
 urlpatterns = [
@@ -17,6 +18,8 @@ urlpatterns = [
     path('api/auth_tkn', auth.auth_token, name="auth_tkn"),
     path('api/login', auth.login, name="login"),
     path('api/logout', auth.login, name="logout"),
+
+    path('api/vendors', vendor.get_vendors, name="vendors"),
 
     path('api/create_certificate', certification.create_certification, name="create_certification"),
     path('api/get_certificate', certification.get_vendor_certificate, name="get_certification"),
@@ -32,6 +35,7 @@ urlpatterns = [
     # Customer Feedback / Complaint
     path('api/feedback', CustomerView.feedback, name="feedback"),
     path('api/complain', CustomerView.complain, name="complain"),
+    path('api/warning', CustomerView.send_warning, name="warning"),
 
     # Admin 
     path('api/admin/login', views.login_admin),
