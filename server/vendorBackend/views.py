@@ -126,14 +126,14 @@ def register_admin(request):
 @api_view(["POST"])
 def add_new_location(request):
     # try:
-    postdata = request.data
+        postdata = request.data
     # postdata['area']['area_id'] = utils.create_random_token(16)
     # admin_query = admin.objects(admin_id=postdata['admin_id']).get()
     # print(postdata)
     # area_new = Area(**postdata['area'])
     # admin_query.Area.append(area_new)
     # admin_query.save()
-    try:
+    # try:
         area = Area(area_id=utils.create_random_token(16)
                     , lat=postdata['lat'],
                     long=postdata['long'],
@@ -143,8 +143,8 @@ def add_new_location(request):
         area.save()
 
         return JsonResponse({"status": 200, "message": "success"}, status=status.HTTP_200_OK, safe=False)
-    except:
-        return JsonResponse({"message": "Invalid Area"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
+    # except:
+    #     return JsonResponse({"message": "Invalid Area"}, status=status.HTTP_406_NOT_ACCEPTABLE, safe=False)
 
 
 # else :
@@ -233,7 +233,7 @@ def get_schemes(request):
         schemes_query = SchemesModel.objects(admin_id=payload['admin_id'])
         ls = []
         for i in schemes_query:
-            print(i)
+            # print(i)
             ls.append(json.loads(i.to_json()))
 
         return JsonResponse({"status": 200, "response": ls}, status=status.HTTP_200_OK, safe=False)
@@ -301,9 +301,11 @@ utility functions
 
 
 def upload_image(img_src, id):
-    cloudinary.uploader.upload("data:image/png;base64," + img_src, public_id=id, unique_filename=False, overwrite=True,
-                               folder="SIH")
-    srcURL = cloudinary.CloudinaryImage(id).build_url()
+    res = cloudinary.uploader.upload(img_src, public_id=id, unique_filename=False, overwrite=True,
+                               folder="sih")
+
+    srcURL = res['url']
+    # print(res)
     return srcURL
 
 

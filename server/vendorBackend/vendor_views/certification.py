@@ -14,13 +14,14 @@ from vendorBackend.models import CertModel, DocumentModel, VendorModel
 import cloudinary
 
 config = cloudinary.config(
-        secure=True,
-        api_key="879963674368385",
-        api_secret="TiBlP74DD9AxmdTqK8r1oOWCPQE",
-        cloud_name="sristspace"
-    )
+    secure=True,
+    api_key="879963674368385",
+    api_secret="TiBlP74DD9AxmdTqK8r1oOWCPQE",
+    cloud_name="sristspace"
+)
 
 import cloudinary.uploader
+
 
 @api_view(["GET"])
 def create_certification(request):
@@ -37,29 +38,30 @@ def create_certification(request):
     # Checking if vendor exists
     vendor: VendorModel = VendorModel.objects(
         id=data["vendorId"]
-        ).first()
+    ).first()
     if vendor is None:
         return Response({"error": "Vendor not found"}, status=status.HTTP_404_NOT_FOUND)
 
     # New Certificate
     new_cert = CertModel(
-            vendorId=data["vendorId"],
-            document=DocumentModel(
-                verId=data["document"]["verId"],
-                verType=data["document"]["verType"]
-                ),
-            details=data["details"],
-            nominees=data["nominees"],
-            status={"label": "NOT VERIFIED"},
-            request_date=datetime.utcnow()
-            )
+        vendorId=data["vendorId"],
+        document=DocumentModel(
+            verId=data["document"]["verId"],
+            verType=data["document"]["verType"]
+        ),
+        details=data["details"],
+        nominees=data["nominees"],
+        status={"label": "NOT VERIFIED"},
+        request_date=datetime.utcnow()
+    )
     if "profile" in data:
-        new_cert.vendor_profile=upload_image(data["profile"], data["vendorId"])
+        new_cert.vendor_profile = upload_image(data["profile"], data["vendorId"])
     else:
         return Response({"error": "Resource not found"}, status=status.HTTP_404_NOT_FOUND)
 
     if "doc_img" in data["document"]:
-        new_cert.document.scan=upload_image(data["document"]["doc_img"], data["vendorId"] + "_" + data["document"]["verType"])
+        new_cert.document.scan = upload_image(data["document"]["doc_img"],
+                                              data["vendorId"] + "_" + data["document"]["verType"])
     else:
         return Response({"error": "Resource not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -106,6 +108,7 @@ def sign_certificate(request):
     ), status__label="VERIFIED", status__response=data["response"] if "response" in data else "")
     return Response({"message": "signature successful"})
 
+
 @api_view(["POST"])
 def reject_certificate(request):
     data = JSONParser().parse(request)
@@ -118,6 +121,7 @@ def reject_certificate(request):
         return Response({"error": "Valid certificate not found"}, status=status.HTTP_404_NOT_FOUND)
     cert.update(status__label="REJECTED", status__response=data["response"] if "response" in data else "")
     return Response({"message": "signature successful"})
+
 
 # TODO: updation of certificate
 # @api_view
@@ -132,6 +136,6 @@ def reject_certificate(request):
 # UTILITY FUNCTIONS
 
 def upload_image(img_src, id):
-    cloudinary.uploader.upload(img_src, public_id=id, unique_filename = False, overwrite=True, folder="sih")
-    srcURL = cloudinary.CloudinaryImage(id).build_url()
+    res = cloudinary.uploader.upload(img_src, public_id=id, unique_filename=False, overwrite=True, folder="sih")
+    srcURL = res['url']
     return srcURL
