@@ -196,7 +196,7 @@ def add_scheme_post(request):
         city = data['city'],
         title = data['title'],
         description  = data["description"],
-        post_date = datetime.now()
+        post_date = datetime.datetime.now()
     )
     schemes.save()
     schemes.update(
