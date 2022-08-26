@@ -11,6 +11,7 @@ import {
   InfoWindow,
   Circle,
 } from "@react-google-maps/api";
+import axios from "axios";
 
 const containerStyle = {
   height: "100vh",
@@ -45,8 +46,7 @@ export default function AreaAllocator() {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
       radius: 100,
-      limit: 50,  
-      name: newArea.name,
+      limit: 50
     });
   }, []);
 
@@ -57,11 +57,6 @@ export default function AreaAllocator() {
     const onInput = (e) => {
         let updatedArea = newArea;
         updatedArea.radius = parseInt(e.target.value);
-        setNewArea(updatedArea);
-      },
-      onInputName = (e) => {
-        let updatedArea = newArea;
-        updatedArea.name = toString(e.target.value);
         setNewArea(updatedArea);
       },
       onInputLimit = (e) => {
@@ -92,20 +87,11 @@ export default function AreaAllocator() {
           <Offcanvas.Body>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Vendor Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={newArea.name}
-                  onChange={onInputName}
-                  autoComplete="off"
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Radius</Form.Label>
                 <Form.Control
                   type="text"
                   value={newArea.radius}
-                   onChange={onInput}
+                  onChange={onInput}
                   autoComplete="off"
                 />
               </Form.Group>
@@ -115,7 +101,7 @@ export default function AreaAllocator() {
                 <Form.Control
                   type="text"
                   value={newArea.limit}
-                   onChange={onInputLimit}
+                  onChange={onInputLimit}
                   autoComplete="off"
                 />
               </Form.Group>
@@ -125,6 +111,16 @@ export default function AreaAllocator() {
                 onClick={() => {
                   onFormSubmit();
                   setNewArea(null);
+                  axios.post("http://127.0.0.1:8000/api/admin/addarea", {
+                    area_id: "213123",
+                    lat: selectedMarker.lat,
+                    long: selectedMarker.lng,
+                    name: "Hatwara vegetable market",
+                    radius: newArea.radius,
+                    city: "jaipur",
+                    ven_no: [],
+                    ven_limit: newArea.limit,
+                  });
                 }}
               >
                 Add Area
