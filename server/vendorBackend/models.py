@@ -23,7 +23,7 @@ class SessionModel(EmbeddedDocument):
 
 class DetailModel(EmbeddedDocument):
     name = StringField(max_length=100)
-    dob = DateField()
+    age = IntField()
     address = StringField(max_length=100)
     contact = StringField(max_length=10)
 

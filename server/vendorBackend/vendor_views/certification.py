@@ -79,7 +79,7 @@ def get_vendor_certificate(request):
     data = JSONParser().parse(request)
     cert: CertModel = CertModel.objects(vendorId=data["vendorId"]).first()
     if cert is None:
-        return Response({"error": "Vendor not found"}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": "Vendor has not Applied for Certificate"}, status=status.HTTP_204_NO_CONTENT)
     print(cert.to_json())
     return Response(json.loads(cert.to_json()))
 

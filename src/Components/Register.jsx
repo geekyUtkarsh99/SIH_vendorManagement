@@ -40,7 +40,10 @@ const Register = () => {
         state: credential.state,
       }),
     });
-    console.log("success");
+    if (response.ok === true) {
+      alert("Now login please");
+      navigate(-1);
+    }
   };
 
   return (

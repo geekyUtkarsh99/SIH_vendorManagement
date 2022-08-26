@@ -46,7 +46,15 @@ export default function AreaAllocator() {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
       radius: 100,
+<<<<<<< HEAD
       limit: 50
+||||||| 067ffe8
+      limit: 50,  
+      name: newArea.name,
+=======
+      limit: 50,
+      name:"",  
+>>>>>>> a1df11930917c775c5d9a37a164c409a1cc69737
     });
   }, []);
 
