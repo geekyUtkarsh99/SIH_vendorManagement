@@ -117,7 +117,7 @@ class vendor_id(EmbeddedDocument):
 #         )
 
 
-class Area(EmbeddedDocument):
+class Area(Document):
     area_id = StringField(max_length=50)
     lat = FloatField()
     long = FloatField()
@@ -125,6 +125,7 @@ class Area(EmbeddedDocument):
     radius = FloatField()
     ven_no = ListField(EmbeddedDocumentField(vendor_id))
     ven_limit = IntField()
+    city = StringField(max_length=25)
 
     class Meta:
         abstract = True
@@ -145,7 +146,6 @@ class admin(Document):
     session = EmbeddedDocumentField(session)
     city = StringField(max_length=50)
     state = StringField(max_length=50)
-    Area = ListField(EmbeddedDocumentField(Area))
     # Area = ArrayField(model_container=Area, model_form_class=AreaForm)
     # object = DjongoManager()
 

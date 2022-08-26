@@ -51,7 +51,7 @@ function Auth() {
               type="password"
               name="password"
               value={credential.password}
-              onChange={Onchange}
+               onChange={Onchange}
               placeholder="Password"
             />
           </Form.Group>

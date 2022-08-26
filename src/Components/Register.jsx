@@ -41,11 +41,13 @@ const Register = () => {
        
       }),
     });
+    console.log("success")
 
-    if(response.message==='success')
-    {
-      navigate('login')
-    }
+    // if(response.message==='success')
+    // {
+    //   console.log("success")
+    //   navigate('login')
+    // }
   };
 
   return (
