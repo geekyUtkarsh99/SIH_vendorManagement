@@ -51,6 +51,7 @@ export default function AreaAllocator() {
   }, []);
 
   const [selectedMarker, setSelectedMarker] = React.useState(null);
+  const [selectedMarkerIndex, setSelectedMarkerIndex] = React.useState(null);
 
   //For OffCanvas while adding the location and setting the limits and radius
   function OffCanvasExample(props) {
@@ -74,10 +75,11 @@ export default function AreaAllocator() {
         //remove
         console.log(limit);
       };
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-//RETURN OF OFFCANVAS
+    //RETURN OF OFFCANVAS
     return (
       <>
         <Button
@@ -118,12 +120,23 @@ export default function AreaAllocator() {
                 onClick={() => {
                   onFormSubmit();
                   onFormSubmitLimit();
-                  
                 }}
               >
-                Update Area
+                Set Area
               </Button>
-              <Button variant="primary" className="btn btn-danger">
+
+              {/* Delete the marker  */}
+              <Button
+                variant="primary"
+                className="btn btn-danger"
+                onClick={() => {
+                  setMarkers([
+                    ...markers.slice(0, props.index),
+                    ...markers.slice(props.index + 1),
+                  ]);
+                  setSelectedMarker(null);
+                }}
+              >
                 Delete Area
               </Button>
             </Form>
@@ -133,7 +146,7 @@ export default function AreaAllocator() {
     );
   }
 
-  //MAIN RETURN 
+  //MAIN RETURN
   return (
     // Important! Always set the container height explicitly
     <div style={{ height: "100vh", width: "100wh" }}>
@@ -156,15 +169,9 @@ export default function AreaAllocator() {
                   }}
                   onClick={() => {
                     setSelectedMarker(marker);
+                    setSelectedMarkerIndex(index);
                   }}
                 />
-                  <Circle
-                    center={{
-                      lat: marker.lat,
-                      lng: marker.lng,
-                    }}
-                    options={options}
-                  />
               </>
             ))}
             {selectedMarker ? (
@@ -178,7 +185,7 @@ export default function AreaAllocator() {
                   <h6>Vendor position</h6>
                   <p> Longitude = {selectedMarker.lat}</p>
                   <p> Latitude = {selectedMarker.lng}</p>
-                  <OffCanvasExample lat={selectedMarker.lat} lng={selectedMarker.lng}/>
+                  <OffCanvasExample index={selectedMarkerIndex} />
                 </div>
               </InfoWindow>
             ) : null}
