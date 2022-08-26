@@ -55,17 +55,16 @@ const Notifications = () => {
                         <div className="title text-muted">
                           <b>Posted on</b>
                           <br />
-                          <img
-                            src={data.image}
-                            alt=""
-                          />
+                          {data.post_date}
                         </div>
                       </div>
                       <div
                         className="sub d-flex"
                         style={{ flexDirection: "column" }}
                       >
-                        <Button variant="primary my-2">Edit</Button>
+                        <Button variant="primary my-2" onClick={handleclick}>
+                          Edit
+                        </Button>
                         <Button variant="danger">Primary</Button>
                       </div>
                     </div>
