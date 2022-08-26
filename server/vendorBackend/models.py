@@ -155,7 +155,7 @@ class SchemesModel(Document):
     admin_id = StringField(max_length=16)
     city = StringField(max_length=50)
     title = StringField(max_length=120)
-    description = StringField(max_length=300)
+    description = StringField(max_length=3000)
     image = StringField(max_length=200)
     post_date = DateField()
 
